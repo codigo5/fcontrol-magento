@@ -158,7 +158,9 @@ class Fcontrol_Payu_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
 
-        return Mage::getStoreConfig($path, Mage::app()->getStore());
+        $resultConfig = Mage::getStoreConfig($path, Mage::app()->getStore());
+
+        return $resultConfig;
     }
 
     /**

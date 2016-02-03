@@ -144,7 +144,7 @@ abstract class Fcontrol_Payu_Model_Api_Abstract extends Varien_Object
      *
      * @var Fcontrol_Payu_Model_Api
      */
-    private $_wsdl = "http://secure.fcontrol.com.br/WSFControl2/WSFControl2.asmx?wsdl";
+    private $_wsdl = 'teste';
 
     /**
      * Parameter $usuario
@@ -715,6 +715,8 @@ abstract class Fcontrol_Payu_Model_Api_Abstract extends Varien_Object
 
     public function __construct()
     {
+        $this->_wsdl = $this->getEnvironmentUrl();
+
         $this->usuario = $this->getUser();
 
         $this->senha = $this->getPassword();
@@ -1381,6 +1383,19 @@ EOT;
     protected function format($currency)
     {
         return (float)$currency * 100;
+    }
+
+    public function getEnvironmentUrl()
+    {
+        $wsdlUrl = "http://secure.fcontrol.com.br/WSFControl2/WSFControl2.asmx?wsdl";
+        if (!$this->hasData('fcontrol_sandbox')) {
+            $this->setData('fcontrol_sandbox', Mage::getStoreConfig('sales/fcontrol/sandbox', $this->getStoreId()));
+        }
+        if ($this->getData('fcontrol_sandbox')) {
+            $wsdlUrl = "http://sandbox.fcontrol.com.br/WSFControl2/WSFControl2.asmx?wsdl";
+        }
+
+        return $wsdlUrl;
     }
 
     public function getUser()

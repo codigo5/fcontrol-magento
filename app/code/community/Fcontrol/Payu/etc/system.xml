@@ -47,6 +47,17 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </active>
+                        <sandbox translate="label">
+                            <label>Habilitar ambiente Sandbox?</label>
+                            <comment><![CDATA[Deixe o Sandbox habilitado somente para utilização de credenciais em ambiente de testes/homologação. Em modo Produção deixe esta opção desabilitada.]]></comment>
+                            <tooltip><![CDATA[Utilizar o FControl em modo de testes?]]></tooltip>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sandbox>
                         <user translate="label">
                             <label>Nome do usuário</label>
                             <frontend_type>text</frontend_type>

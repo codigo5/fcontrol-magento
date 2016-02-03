@@ -21,8 +21,16 @@
 class Fcontrol_Payu_Model_Api extends Fcontrol_Payu_Model_Api_Abstract
 {
 
-    protected $_urlFrame = 'https://secure.fcontrol.com.br/validatorframe/validatorframe.aspx';
+    protected $_urlFrame;
 
+    public function __construct()
+    {
+        $validatorFrameUrl = "https://secure.fcontrol.com.br/validatorframe/validatorframe.aspx";
+        if (Mage::getStoreConfig('sales/fcontrol/sandbox', $this->getStoreId())) {
+            $validatorFrameUrl = "https://sandbox.fcontrol.com.br/validatorframe/validatorframe.aspx";
+        }
+        $this->_urlFrame = $validatorFrameUrl;
+    }
 
     public function analisaFrame()
     {
