@@ -62,7 +62,8 @@ class Fcontrol_Payu_Model_Adapter_Payment extends Varien_Object
         'gwap_cc' => true,
         'Maxima_Cielo_Dc' => true,
         'payzen_standard' => true,
-        'pagseguro_hpp' => false
+        'pagseguro_hpp' => false,
+        'cashondelivery' => true
     );
     protected static $_additional_data = '10_A01';
 
