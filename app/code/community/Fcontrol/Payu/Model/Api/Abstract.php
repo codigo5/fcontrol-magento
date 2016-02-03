@@ -1,4 +1,9 @@
 <?php
+
+set_include_path(get_include_path() . PS . Mage::getBaseDir('lib') . DS . 'nusoap');
+
+require_once('nusoap.php');
+
 /**
  * Magento
  *
@@ -17,10 +22,6 @@
  * @copyright  Copyright (c) 2016 FCONTROL (https://www.fcontrol.com.br/)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-set_include_path(get_include_path() . PS . Mage::getBaseDir('lib') . DS . 'nusoap');
-
-require_once('nusoap.php');
-
 abstract class Fcontrol_Payu_Model_Api_Abstract extends Varien_Object
 {
 

@@ -10,7 +10,7 @@
  * http://opensource.org/licenses/osl-3.0.php
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
- * to suporte.developer@buscape-inc.com so we can send you a copy immediately.
+ * to suporte@fcontrol.com.br so we can send you a copy immediately.
  *
  * @category   Fcontrol
  * @package    Fcontrol_Payu
@@ -26,14 +26,15 @@
     <div class="fieldset">
         <div class="hor-scroll">
             <table cellspacing="0" class="form-list">
-            <tr>
-                <td class="label" style="display: none;"><label><?php echo Mage::helper('fcontrol')->__('Informações da Análise') ?></label></td>
-                <td class="value">
-                    <div style="display: block;">
-                    <?php echo $this->getScore(); ?>
-                    </div>
-                </td>
-            </tr>
+                <tr>
+                    <td class="label" style="display: none;">
+                        <label><?php echo Mage::helper('fcontrol')->__('Informações da Análise') ?></label></td>
+                    <td class="value">
+                        <div style="display: block;">
+                            <?php echo $this->getScore(); ?>
+                        </div>
+                    </td>
+                </tr>
             </table>
         </div>
     </div>

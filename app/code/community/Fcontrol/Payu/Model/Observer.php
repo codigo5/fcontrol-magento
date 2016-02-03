@@ -135,7 +135,7 @@ class Fcontrol_Payu_Model_Observer
      *
      * @return this
      */
-    public static function queueListOrder()
+    public function queueListOrder()
     {
         $quotes = Mage::getModel('sales/order')->getCollection();
 

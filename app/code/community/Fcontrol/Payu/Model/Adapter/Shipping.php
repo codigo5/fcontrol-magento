@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -17,8 +18,7 @@
  * @copyright  Copyright (c) 2016 FCONTROL (https://www.fcontrol.com.br/)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 class Fcontrol_Payu_Model_Adapter_Shipping extends Varien_Object
 {
-    
+
 }
