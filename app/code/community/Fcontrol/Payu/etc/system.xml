@@ -70,7 +70,6 @@
                         <password translate="label">
                             <label>Senha do usuário</label>
                             <frontend_type>obscure</frontend_type>
-                            <autocomplete>0</autocomplete>
                             <sort_order>15</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
