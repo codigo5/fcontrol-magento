@@ -21,66 +21,39 @@
 class Fcontrol_Payu_Model_Adapter_Payment extends Varien_Object
 {
 
-    protected static $_service = array(
-        'ccsave' => true,
-        'checkmo' => true,
-        'free' => true,
-        'purchaseorder' => true,
-        'authorizenet_directpost' => false,
-        'authorizenet' => false,
-        'googlecheckout' => false,
-        'paypal_standard' => false,
-        'paypal_express' => false,
-        'paypal_direct' => false,
-        'paypaluk_direct' => false,
-        'paypaluk_express' => false,
-        'verisign' => false,
-        'payflow_link' => false,
-        'hosted_pro' => false,
-        'paypal_billing_agreement' => false,
-        'pagamentodigital_standard' => false,
-        'pagseguro_standard' => false,
-        'pagseguro' => false,
-        'brunoassarisse_pagseguro' => false,
-        'cobredireto' => true,
-        'pagamentodigital_geral' => false,
-        'pagamentodigital_vista' => false,
-        'pagamentodigital_prazo' => false,
-        'dineromail_standard' => false,
-        'banco' => true,
-        'BoletoBancario_standard' => false,
-        'payments_cielowebservice' => true,
-        'ipgcore' => true,
-        'brunoassarisse_pagseguro' => false,
-        'Multikomerce_Redecard' => true,
-        'Eformance_KomerciParc' => true,
-        'boleto_bradesco' => false,
-        'Maxima_Cielo_Cc' => true,
-        'cartao' => true,
-        'superpay' => true,
-        'cielo' => true,
-        'gwap_cc' => true,
-        'Maxima_Cielo_Dc' => true,
-        'payzen_standard' => true,
-        'pagseguro_hpp' => false,
-        'cashondelivery' => true
-    );
+    protected static $_service = array();
     protected static $_additional_data = '10_A01';
 
-    /* Verifica se a forma de pagamento pode ser utilizada com o FControl */
+    /**
+     * Fcontrol_Payu_Model_Adapter_Payment constructor.
+     */
+    public function __construct()
+    {
+        $allowedPaymentMethods = Mage::helper('fcontrol')->getConfig('payments');
+        $allowedPaymentMethods = explode(',', $allowedPaymentMethods);
 
+        // Constrói array com métodos de pagamentos habilitados para FControl
+        $methods = array();
+        foreach ($allowedPaymentMethods as $method) {
+            $methods[$method] = true;
+        }
+
+        self::$_service = $methods;
+    }
+
+    /**
+     * Verifica se a forma de pagamento do pedido pode ser utilizada com o FControl
+     *
+     * @param null $payment
+     * @return bool
+     */
     public function validate($payment = null)
     {
-        //  $payment->getData('additional_data');
-
-
         if (in_array($payment->getMethod(), self::$_service)) {
             if (self::$_service[$payment->getMethod()]) {
 
                 if ($payment->getMethod() == "ipgcore") {
-
                     if ($payment->getData('additional_data') == self::$_additional_data) {
-
                         return false;
                     } else {
                         return true;
