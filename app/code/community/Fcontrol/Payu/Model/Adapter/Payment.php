@@ -30,15 +30,17 @@ class Fcontrol_Payu_Model_Adapter_Payment extends Varien_Object
     public function __construct()
     {
         $allowedPaymentMethods = Mage::helper('fcontrol')->getConfig('payments');
-        $allowedPaymentMethods = explode(',', $allowedPaymentMethods);
+        if (!empty($allowedPaymentMethods)) {
+            $allowedPaymentMethods = explode(',', $allowedPaymentMethods);
 
-        // Constrói array com métodos de pagamentos habilitados para FControl
-        $methods = array();
-        foreach ($allowedPaymentMethods as $method) {
-            $methods[$method] = true;
+            // Constrói array com métodos de pagamentos habilitados para FControl
+            $methods = array();
+            foreach ($allowedPaymentMethods as $method) {
+                $methods[$method] = true;
+            }
+
+            self::$_service = $methods;
         }
-
-        self::$_service = $methods;
     }
 
     /**
