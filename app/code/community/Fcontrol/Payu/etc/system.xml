@@ -70,11 +70,12 @@
                         <password translate="label">
                             <label>Senha do usuário</label>
                             <frontend_type>obscure</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
                             <sort_order>15</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment><![CDATA[Senha do usuário cadastrado na FControl.]]></comment>
+                            <comment><![CDATA[Senha do usuário cadastrado na FControl (Observação: Remova deste campo a função 'Memorizar Senha' no navegador)]]></comment>
                         </password>
                         <type_service translate="label">
                             <label>Tipo do Serviço</label>

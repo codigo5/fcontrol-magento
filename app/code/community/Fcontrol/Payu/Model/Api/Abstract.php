@@ -1409,7 +1409,8 @@ EOT;
     public function getPassword()
     {
         if (!$this->hasData('fcontrol_password')) {
-            $this->setData('fcontrol_password', Mage::getStoreConfig('sales/fcontrol/password', $this->getStoreId()));
+            $passwordDecrypt = Mage::helper('core')->decrypt(Mage::getStoreConfig('sales/fcontrol/password', $this->getStoreId()));
+            $this->setData('fcontrol_password',$passwordDecrypt);
         }
         return $this->getData('fcontrol_password');
     }
