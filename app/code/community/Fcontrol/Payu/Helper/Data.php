@@ -182,4 +182,23 @@ class Fcontrol_Payu_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::app()->getRequest()->getModuleName() === 'api';
     }
+
+    /**
+     * Método para registrar logs
+     *
+     * @param $text
+     * @param null $array
+     */
+    public function saveLog($text, $array = null)
+    {
+        if (!is_null($array)) {
+            $text .= " - Infos: " . json_encode($array);
+        }
+
+        $logAtivo = Mage::getStoreConfig('sales/fcontrol/savelog');
+
+        if ($logAtivo) {
+            Mage::log($text, null, "fcontrol.log");
+        }
+    }
 }
