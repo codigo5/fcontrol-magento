@@ -13,7 +13,7 @@
  * to suporte@fcontrol.com.br so we can send you a copy immediately.
  *
  * @category   Fcontrol
- * @package    Fcontrol_Payu
+ * @package    Fcontrol_Antifraude
  * @copyright  Copyright (c) 2016 FCONTROL (https://www.fcontrol.com.br/)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
