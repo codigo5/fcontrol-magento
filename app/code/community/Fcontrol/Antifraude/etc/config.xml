@@ -112,6 +112,13 @@
                 </observers>
             </sales_order_save_confirmed_return>
         </events>
+        <layout>
+            <updates>
+                <fcontrol>
+                    <file>fcontrol.xml</file>
+                </fcontrol>
+            </updates>
+        </layout>
     </frontend>
     <crontab>
         <jobs>
