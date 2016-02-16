@@ -25,9 +25,9 @@ class Fcontrol_Antifraude_Model_Api extends Fcontrol_Antifraude_Model_Api_Abstra
 
     public function __construct()
     {
-        $validatorFrameUrl = "https://secure.fcontrol.com.br/validatorframe/validatorframe.aspx";
+        $validatorFrameUrl = "https://secure.fcontrol.com.br/validatorframe";
         if (Mage::getStoreConfig('sales/fcontrol/sandbox', $this->getStoreId())) {
-            $validatorFrameUrl = "https://sandbox.fcontrol.com.br/validatorframe/validatorframe.aspx";
+            $validatorFrameUrl = "https://sandbox.fcontrol.com.br/validatorframe";
         }
         $this->_urlFrame = $validatorFrameUrl;
     }
@@ -39,7 +39,7 @@ class Fcontrol_Antifraude_Model_Api extends Fcontrol_Antifraude_Model_Api_Abstra
             return strtr($texto, "áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ", "aaaaeeiooouucAAAAEEIOOOUUC");
         }
 
-        $url = $this->_urlFrame;
+        $url = $this->_urlFrame . '/validatorframe.aspx';
 
         $uf = retira_acentos($this->compradorEstado);
 
@@ -147,9 +147,9 @@ class Fcontrol_Antifraude_Model_Api extends Fcontrol_Antifraude_Model_Api_Abstra
         try {
             $client = new Zend_Http_Client();
 
-            $url = $this->_urlFrame;
+            $url = $this->_urlFrame . '/validatorframe.aspx';
 
-            $client->setUri($this->_urlFrame); // verify if exist problem with https, if exist please change for http
+            $client->setUri($url);
 
             $client->resetParameters();
 
@@ -196,13 +196,13 @@ class Fcontrol_Antifraude_Model_Api extends Fcontrol_Antifraude_Model_Api_Abstra
 
             // images
             foreach ($data_images as $url) {
-                $body = preg_replace("~$url~", "https://secure.fcontrol.com.br/validatorframe/{$url}", $body);
+                $body = preg_replace("~$url~", $this->_urlFrame . "/{$url}", $body);
             }
 
             foreach ($background_images[0] as $background) {
                 $background = str_replace("BACKGROUND-IMAGE: url(", "", $background);
                 $background = str_replace(");", "", $background);
-                $body = preg_replace("~$background~", "https://secure.fcontrol.com.br/validatorframe/{$background}", $body);
+                $body = preg_replace("~$background~", $this->_urlFrame . "{$background}", $body);
             }
 
             echo $body;
