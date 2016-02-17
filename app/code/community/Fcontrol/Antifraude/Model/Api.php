@@ -25,11 +25,15 @@ class Fcontrol_Antifraude_Model_Api extends Fcontrol_Antifraude_Model_Api_Abstra
 
     public function __construct()
     {
-        $validatorFrameUrl = "https://secure.fcontrol.com.br/validatorframe/validatorframe.aspx";
+        $validatorFrameUrl = "https://secure.fcontrol.com.br/validatorframe";
         if (Mage::getStoreConfig('sales/fcontrol/sandbox', $this->getStoreId())) {
-            $validatorFrameUrl = "https://sandbox.fcontrol.com.br/validatorframe/validatorframe.aspx";
+            $validatorFrameUrl = "https://sandbox.fcontrol.com.br/validatorframe";
         }
         $this->_urlFrame = $validatorFrameUrl;
+        $this->usuario = $this->getUser();
+        $this->senha = $this->getPassword();
+        $this->compradorPais = $this->getCountry();
+        $this->entregaPais = $this->getCountry();
     }
 
     public function analisaFrame()
@@ -39,12 +43,10 @@ class Fcontrol_Antifraude_Model_Api extends Fcontrol_Antifraude_Model_Api_Abstra
             return strtr($texto, "áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ", "aaaaeeiooouucAAAAEEIOOOUUC");
         }
 
-        $url = $this->_urlFrame;
+        $url = $this->_urlFrame . '/validatorframe.aspx';
 
         $uf = retira_acentos($this->compradorEstado);
-
         $uf = strtolower($uf);
-
         $uf = str_replace(' ', '_', $uf);
 
         $_state_sigla = array(
@@ -77,7 +79,11 @@ class Fcontrol_Antifraude_Model_Api extends Fcontrol_Antifraude_Model_Api_Abstra
             'tocatins' => 'TO'
         );
 
-        $uf = $_state_sigla[$uf];
+        if(isset($_state_sigla[$uf])) {
+            $uf = $_state_sigla[$uf];
+        }else {
+            $uf = strtoupper($uf);
+        }
 
 
         $url .= '?login=' . $this->getUser();
@@ -138,7 +144,9 @@ class Fcontrol_Antifraude_Model_Api extends Fcontrol_Antifraude_Model_Api_Abstra
 
          Mage::log($datetime->format("h:m:s").'-'.$data."\n--------------------------------------------------", null, $name.'-fcontrol.log', true);
         */
-        echo '<iframe height="115" frameborder="0" width="300" src="' . $url . '"></iframe>';
+        echo '<iframe height="115" frameborder="0" width="300" src="' . $url . '"></iframe>' . $this->checkRequiredFields();
+
+        Mage::helper("fcontrol")->saveLog("uaf: " . $uf, $this);
     }
 
     /* Proposta */
@@ -147,9 +155,9 @@ class Fcontrol_Antifraude_Model_Api extends Fcontrol_Antifraude_Model_Api_Abstra
         try {
             $client = new Zend_Http_Client();
 
-            $url = $this->_urlFrame;
+            $url = $this->_urlFrame . '/validatorframe.aspx';
 
-            $client->setUri($this->_urlFrame); // verify if exist problem with https, if exist please change for http
+            $client->setUri($url);
 
             $client->resetParameters();
 
@@ -196,19 +204,91 @@ class Fcontrol_Antifraude_Model_Api extends Fcontrol_Antifraude_Model_Api_Abstra
 
             // images
             foreach ($data_images as $url) {
-                $body = preg_replace("~$url~", "https://secure.fcontrol.com.br/validatorframe/{$url}", $body);
+                $body = preg_replace("~$url~", $this->_urlFrame . "/{$url}", $body);
             }
 
             foreach ($background_images[0] as $background) {
                 $background = str_replace("BACKGROUND-IMAGE: url(", "", $background);
                 $background = str_replace(");", "", $background);
-                $body = preg_replace("~$background~", "https://secure.fcontrol.com.br/validatorframe/{$background}", $body);
+                $body = preg_replace("~$background~", $this->_urlFrame . "{$background}", $body);
             }
 
             echo $body;
 
         } catch (Exception $e) {
+            Mage::helper("fcontrol")->saveLog("Exception - Fcontrol_Antifraude_Model_Api->analisaFrame2: " . $e->getMessage());
             return;
         }
+    }
+
+    /**
+     * Método para checagem de campos obrigatório na requisição
+     * e retorno de instruções para correção
+     *
+     * @return string
+     */
+    private function checkRequiredFields()
+    {
+        $required = $this->requiredList();
+        $invalids_fields = "";
+        $qtdInvalids = 0;
+        foreach ($this as $key => $value) {
+            if (in_array($key, $required)) {
+                if (empty($value) || is_null($value)) {
+                    $qtdInvalids++;
+                    $invalids_fields .= (empty($invalids_fields) ? $key : (', ' . $key));
+                }
+            }
+        }
+        if ($qtdInvalids > 0) {
+            $textNotify = ' campos obrigatórios não preenchidos';
+            if ($qtdInvalids == 1) {
+                $textNotify = ' campo obrigatório não preenchido';
+            }
+            $invalids_fields = '<b>Atenção! ' . $qtdInvalids . $textNotify . ' . (' . $invalids_fields . ')</b>';
+        }
+        return $invalids_fields;
+    }
+
+    /**
+     * Retona array com campos obrigatórios na requisição
+     *
+     * @return array
+     */
+    private function requiredList()
+    {
+        $list = array("_urlFrame",
+            "usuario",
+            "senha",
+            "compradorNome",
+            "compradorRua",
+            "compradorNumero",
+            "compradorCidade",
+            "compradorEstado",
+            "compradorPais",
+            "compradorCep",
+            "compradorCpfCnpj",
+            "compradorEmail",
+            "compradorDataNascimento",
+            "entregaNome",
+            "entregaRua",
+            "entregaCidade",
+            "entregaEstado",
+            "entregaPais",
+            "entregaCep",
+            "entregaDddTelefone1",
+            "entregaTelefone1",
+            "entregaCpfCnpj",
+            "codigoPedido",
+            "itensDistintos",
+            "itensTotal",
+            "valorTotalCompra",
+            "dataCompra",
+            /*"valorTotalFrete",*/
+            "metodoPagamento",
+            "numeroParcelas",
+            "valorPedido");
+
+        return $list;
     }
 }

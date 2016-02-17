@@ -144,7 +144,7 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
-    private $_wsdl = 'teste';
+    private $_wsdl;
 
     /**
      * Parameter $usuario
@@ -732,331 +732,337 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
 
     public function preparaTransacao($order)
     {
-        switch (Mage::helper('fcontrol')->getConfig('type_service')) {
-            case self::FRAME:
-                /* @required */
-                $this->compradorNome = utf8_decode($order->getBillingAddress()->getFirstname() . ' ' . $order->getBillingAddress()->getLastname());
+        try {
+            switch (Mage::helper('fcontrol')->getConfig('type_service')) {
+                case self::FRAME:
+                    /* @required */
+                    $this->compradorNome = utf8_decode($order->getBillingAddress()->getFirstname() . ' ' . $order->getBillingAddress()->getLastname());
 
-                /* @required */
-                $this->compradorCep = str_replace("-", "", preg_replace('/[^(\x20-\x7F)\x0A]*/', '', $order->getBillingAddress()->getPostcode()));
+                    /* @required */
+                    $this->compradorCep = str_replace("-", "", preg_replace('/[^(\x20-\x7F)\x0A]*/', '', $order->getBillingAddress()->getPostcode()));
 
-                /* @required */
-                $this->compradorRua = utf8_decode($order->getBillingAddress()->getStreet1());
+                    /* @required */
+                    $this->compradorRua = utf8_decode($order->getBillingAddress()->getStreet1());
 
-                /* @required */
-                $this->compradorNumero = ($order->getBillingAddress()->getStreet2()) ? $order->getBillingAddress()->getStreet2() : 'SN';
+                    /* @required */
+                    $this->compradorNumero = ($order->getBillingAddress()->getStreet2()) ? $order->getBillingAddress()->getStreet2() : 'SN';
 
-                $this->compradorComplemento = utf8_decode($order->getBillingAddress()->getStreet3());
+                    $this->compradorComplemento = utf8_decode($order->getBillingAddress()->getStreet3());
 
-                $this->compradorBairro = utf8_decode($order->getBillingAddress()->getStreet4());
+                    $this->compradorBairro = utf8_decode($order->getBillingAddress()->getStreet4());
 
-                /* @required */
-                $this->compradorCidade = utf8_decode($order->getBillingAddress()->getCity());
+                    /* @required */
+                    $this->compradorCidade = utf8_decode($order->getBillingAddress()->getCity());
 
-                /* @required */
-                $this->compradorEstado = utf8_decode($order->getBillingAddress()->getRegion());
+                    /* @required */
+                    $this->compradorEstado = utf8_decode($order->getBillingAddress()->getRegion());
 
-                $telBilling = preg_replace("/[^0-9]/", "", $order->getBillingAddress()->getTelephone());
+                    $telBilling = preg_replace("/[^0-9]/", "", $order->getBillingAddress()->getTelephone());
 
-                $telBilling = trim($telBilling);
+                    $telBilling = trim($telBilling);
 
-                switch (strlen($telBilling)) {
-                    case 8:
-                        $telephoneBilling = $telBilling;
-                        $dddTelephoneBilling = '';
-                        break;
-                    case 10:
-                        $telephoneBilling = substr($telBilling, -8);
-                        $dddTelephoneBilling = substr($telBilling, -10, 2);
-                        break;
-                    case 12:
-                        $telephoneBilling = substr($telBilling, -8);
-                        $dddTelephoneBilling = substr($telBilling, -10, 2);
-                        break;
-                }
+                    switch (strlen($telBilling)) {
+                        case 8:
+                            $telephoneBilling = $telBilling;
+                            $dddTelephoneBilling = '';
+                            break;
+                        case 10:
+                            $telephoneBilling = substr($telBilling, -8);
+                            $dddTelephoneBilling = substr($telBilling, -10, 2);
+                            break;
+                        case 12:
+                            $telephoneBilling = substr($telBilling, -8);
+                            $dddTelephoneBilling = substr($telBilling, -10, 2);
+                            break;
+                    }
 
-                $this->compradorDddTelefone1 = $dddTelephoneBilling;
+                    $this->compradorDddTelefone1 = $dddTelephoneBilling;
 
-                $this->compradorTelefone1 = $telephoneBilling;
+                    $this->compradorTelefone1 = $telephoneBilling;
 
-                /* @required */
-                $this->compradorCpfCnpj = preg_replace("/[^0-9]/", "", $order->getCustomerTaxvat());
+                    /* @required */
+                    $this->compradorCpfCnpj = preg_replace("/[^0-9]/", "", $order->getCustomerTaxvat());
 
-                $telShipping = preg_replace("/[^0-9]/", "", $order->getShippingAddress()->getTelephone());
+                    $telShipping = preg_replace("/[^0-9]/", "", $order->getShippingAddress()->getTelephone());
 
-                $telShipping = trim($telShipping);
+                    $telShipping = trim($telShipping);
 
-                switch (strlen($telShipping)) {
-                    case 8:
-                        $telephoneShipping = $telShipping;
-                        $dddTelephoneShipping = '';
-                        break;
-                    case 10:
-                        $telephoneShipping = substr($telShipping, -8);
-                        $dddTelephoneShipping = substr($telShipping, -10, 2);
-                        break;
-                    case 12:
-                        $telephoneShipping = substr($telShipping, -8);
-                        $dddTelephoneShipping = substr($telShipping, -10, 2);
-                        break;
-                }
-
-
-                /* Alteração Rodrigo - Ddd Celular*/
-
-                $celBilling = preg_replace("/[^0-9]/", "", $order->getBillingAddress()->getFax());
-
-                $celBilling = trim($celBilling);
-
-                switch (strlen($celBilling)) {
-                    case 8:
-                        $celularBilling = $celBilling;
-                        $dddCelularBilling = '';
-                        break;
-                    case 9:
-                        $celularBilling = $celBilling;
-                        $dddCelularBilling = '';
-                        break;
-                    case 10:
-                        $celularBilling = substr($celBilling, -8);
-                        $dddCelularBilling = substr($celBilling, -10, 2);
-                        break;
-                    case 12:
-                        $celularBilling = substr($celBilling, -8);
-                        $dddCelularBilling = substr($celBilling, -10, 2);
-                        break;
-                    case 11:
-                        $celularBilling = substr($celBilling, -9);
-                        $dddCelularBilling = substr($celBilling, -11, 2);
-                        break;
-                }
-
-                $this->compradorDddCelular = $dddCelularBilling;
-
-                $this->compradorCelular = $celularBilling;
-
-                /* Alteração Rodrigo - Ddd Shipping*/
-                $celShipping = preg_replace("/[^0-9]/", "", $order->getShippingAddress()->getFax());
-
-                $celShipping = trim($celShipping);
-
-                switch (strlen($celShipping)) {
-                    case 8:
-                        $celularShipping = $celShipping;
-                        $dddCelularShipping = '';
-                        break;
-                    case 9:
-                        $celularShipping = $celShipping;
-                        $dddCelularShipping = '';
-                        break;
-                    case 10:
-                        $celularShipping = substr($celShipping, -8);
-                        $dddCelularShipping = substr($celShipping, -10, 2);
-                        break;
-                    case 12:
-                        $celularShipping = substr($celShipping, -8);
-                        $dddCelularShipping = substr($celShipping, -10, 2);
-                        break;
-                    case 11:
-                        $celularShipping = substr($celShipping, -9);
-                        $dddCelularShipping = substr($celShipping, -11, 2);
-                        break;
-                }
-
-                /* @required */
-                $this->compradorEmail = (is_null($order->getBillingAddress()->getEmail())) ? $order->getCustomerEmail() : $order->getBillingAddress()->getEmail();
-
-                $this->entregaCep = str_replace("-", "", preg_replace('/[^(\x20-\x7F)\x0A]*/', '', $order->getShippingAddress()->getPostcode()));
-
-                $this->entregaRua = utf8_decode($order->getShippingAddress()->getStreet1());
-
-                $this->entregaNumero = ($order->getShippingAddress()->getStreet2()) ? $order->getShippingAddress()->getStreet2() : 'SN';
-
-                $this->entregaBairro = utf8_decode($order->getShippingAddress()->getStreet4());
-
-                $this->entregaCidade = utf8_decode($order->getShippingAddress()->getCity());
-
-                $this->entregaEstado = utf8_decode($order->getShippingAddress()->getRegion());
-
-                $this->entregaComplemento = utf8_decode($order->getShippingAddress()->getStreet3());
+                    switch (strlen($telShipping)) {
+                        case 8:
+                            $telephoneShipping = $telShipping;
+                            $dddTelephoneShipping = '';
+                            break;
+                        case 10:
+                            $telephoneShipping = substr($telShipping, -8);
+                            $dddTelephoneShipping = substr($telShipping, -10, 2);
+                            break;
+                        case 12:
+                            $telephoneShipping = substr($telShipping, -8);
+                            $dddTelephoneShipping = substr($telShipping, -10, 2);
+                            break;
+                    }
 
 
-                /* @required */
-                $this->entregaNome = $order->getShippingAddress()->getFirstname() . ' ' . $order->getShippingAddress()->getLastname();
+                    /* Alteração Rodrigo - Ddd Celular*/
 
-                $this->entregaDddTelefone1 = $dddTelephoneShipping;
+                    $celBilling = preg_replace("/[^0-9]/", "", $order->getBillingAddress()->getFax());
 
-                $this->entregaTelefone1 = $telephoneShipping;
+                    $celBilling = trim($celBilling);
 
-                $this->entregaDddCelular = $dddCelularShipping; //Alteração Rodrigo
+                    switch (strlen($celBilling)) {
+                        case 8:
+                            $celularBilling = $celBilling;
+                            $dddCelularBilling = '';
+                            break;
+                        case 9:
+                            $celularBilling = $celBilling;
+                            $dddCelularBilling = '';
+                            break;
+                        case 10:
+                            $celularBilling = substr($celBilling, -8);
+                            $dddCelularBilling = substr($celBilling, -10, 2);
+                            break;
+                        case 12:
+                            $celularBilling = substr($celBilling, -8);
+                            $dddCelularBilling = substr($celBilling, -10, 2);
+                            break;
+                        case 11:
+                            $celularBilling = substr($celBilling, -9);
+                            $dddCelularBilling = substr($celBilling, -11, 2);
+                            break;
+                    }
 
-                $this->entregaCelular = $celularShipping; // Alteração Rodrigo
+                    $this->compradorDddCelular = $dddCelularBilling;
 
-                if ($order->getRemoteIp()) {  //Alteração Rodrigo
-                    $this->compradorIp = $order->getRemoteIp();
-                }
+                    $this->compradorCelular = $celularBilling;
 
-                $this->entregaCpfCnpj = preg_replace("/[^0-9]/", "", $order->getCustomerTaxvat());
+                    /* Alteração Rodrigo - Ddd Shipping*/
+                    $celShipping = preg_replace("/[^0-9]/", "", $order->getShippingAddress()->getFax());
 
-                $this->entregaEmail = $order->getShippingAddress()->getEmail();
+                    $celShipping = trim($celShipping);
 
-                /* @required */
-                $adapter_payment = Mage::getModel('fcontrol/adapter_payment');
+                    switch (strlen($celShipping)) {
+                        case 8:
+                            $celularShipping = $celShipping;
+                            $dddCelularShipping = '';
+                            break;
+                        case 9:
+                            $celularShipping = $celShipping;
+                            $dddCelularShipping = '';
+                            break;
+                        case 10:
+                            $celularShipping = substr($celShipping, -8);
+                            $dddCelularShipping = substr($celShipping, -10, 2);
+                            break;
+                        case 12:
+                            $celularShipping = substr($celShipping, -8);
+                            $dddCelularShipping = substr($celShipping, -10, 2);
+                            break;
+                        case 11:
+                            $celularShipping = substr($celShipping, -9);
+                            $dddCelularShipping = substr($celShipping, -11, 2);
+                            break;
+                    }
 
-                $adapter_payment->filter($order->getPayment(), $this);
+                    /* @required */
+                    $this->compradorEmail = (is_null($order->getBillingAddress()->getEmail())) ? $order->getCustomerEmail() : $order->getBillingAddress()->getEmail();
 
-                /* @required */
-                $this->valorPedido = number_format($order->getPayment()->getAmountOrdered(), 2, ".", "");
+                    $this->entregaCep = str_replace("-", "", preg_replace('/[^(\x20-\x7F)\x0A]*/', '', $order->getShippingAddress()->getPostcode()));
 
-                /* @required */
-                $this->numeroParcelas = 1;
+                    $this->entregaRua = utf8_decode($order->getShippingAddress()->getStreet1());
 
-                $this->codigoPedido = $order->getIncrementId();
+                    $this->entregaNumero = ($order->getShippingAddress()->getStreet2()) ? $order->getShippingAddress()->getStreet2() : 'SN';
 
-                /* @required; @format: ISO 8601 */
-                $this->dataCompra = str_replace(" ", "+", $order->getCreatedAt());
+                    $this->entregaBairro = utf8_decode($order->getShippingAddress()->getStreet4());
 
-                $this->itensTotal = 0;
+                    $this->entregaCidade = utf8_decode($order->getShippingAddress()->getCity());
 
-                if ($order->getAllItems()) {
-                    foreach ($order->getAllItems() as $items) {
-                        if (is_null($items->getParentItemId())) {
-                            $this->itensTotal += intval($items->getQtyOrdered());
+                    $this->entregaEstado = utf8_decode($order->getShippingAddress()->getRegion());
+
+                    $this->entregaComplemento = utf8_decode($order->getShippingAddress()->getStreet3());
+
+
+                    /* @required */
+                    $this->entregaNome = $order->getShippingAddress()->getFirstname() . ' ' . $order->getShippingAddress()->getLastname();
+
+                    $this->entregaDddTelefone1 = $dddTelephoneShipping;
+
+                    $this->entregaTelefone1 = $telephoneShipping;
+
+                    $this->entregaDddCelular = $dddCelularShipping; //Alteração Rodrigo
+
+                    $this->entregaCelular = $celularShipping; // Alteração Rodrigo
+
+                    if ($order->getRemoteIp()) {  //Alteração Rodrigo
+                        $this->compradorIp = $order->getRemoteIp();
+                    }
+
+                    $this->entregaCpfCnpj = preg_replace("/[^0-9]/", "", $order->getCustomerTaxvat());
+
+                    $this->entregaEmail = $order->getShippingAddress()->getEmail();
+
+                    /* @required */
+                    $adapter_payment = Mage::getModel('fcontrol/adapter_payment');
+
+                    $adapter_payment->filter($order->getPayment(), $this);
+
+                    /* @required */
+                    $this->valorPedido = number_format($order->getPayment()->getAmountOrdered(), 2, ".", "");
+
+                    /* @required */
+                    $this->numeroParcelas = 1;
+
+                    $this->codigoPedido = $order->getIncrementId();
+
+                    /* @required; @format: ISO 8601 */
+                    $this->dataCompra = str_replace(" ", "+", $order->getCreatedAt());
+
+                    $this->itensTotal = 0;
+
+                    if ($order->getAllItems()) {
+                        foreach ($order->getAllItems() as $items) {
+                            if (is_null($items->getParentItemId())) {
+                                $this->itensTotal += intval($items->getQtyOrdered());
+                            }
                         }
                     }
-                }
 
-                $this->itensDistintos = count($order->getAllItems());
+                    $this->itensDistintos = count($order->getAllItems());
 
-                $this->valorTotalCompra = number_format($order->getPayment()->getAmountOrdered(), 2, ".", "");
-                break;
-            case self::FILA_LOJISTA_UNICO:
-            case self::FILA_LOJISTA_PASSAGENS:
-            case self::FILA_VARIOS_LOJISTAS:
-            case self::RECARGA_WEBSERVICE:
+                    $this->valorTotalCompra = number_format($order->getPayment()->getAmountOrdered(), 2, ".", "");
+                    break;
+                case self::FILA_LOJISTA_UNICO:
+                case self::FILA_LOJISTA_PASSAGENS:
+                case self::FILA_VARIOS_LOJISTAS:
+                case self::RECARGA_WEBSERVICE:
 
-                /* @required */
-                $this->compradorNome = utf8_decode($order->getBillingAddress()->getFirstname() . ' ' . $order->getBillingAddress()->getLastname());
+                    /* @required */
+                    $this->compradorNome = utf8_decode($order->getBillingAddress()->getFirstname() . ' ' . $order->getBillingAddress()->getLastname());
 
-                /* @required */
-                $this->compradorCep = str_replace("-", "", preg_replace('/[^(\x20-\x7F)\x0A]*/', '', $order->getBillingAddress()->getPostcode()));
+                    /* @required */
+                    $this->compradorCep = str_replace("-", "", preg_replace('/[^(\x20-\x7F)\x0A]*/', '', $order->getBillingAddress()->getPostcode()));
 
-                /* @required */
-                $this->compradorRua = utf8_decode($order->getBillingAddress()->getStreet1());
+                    /* @required */
+                    $this->compradorRua = utf8_decode($order->getBillingAddress()->getStreet1());
 
-                /* @required */
-                $this->compradorNumero = ($order->getBillingAddress()->getStreet2()) ? $order->getBillingAddress()->getStreet2() : 'SN';
+                    /* @required */
+                    $this->compradorNumero = ($order->getBillingAddress()->getStreet2()) ? $order->getBillingAddress()->getStreet2() : 'SN';
 
-                $this->compradorComplemento = utf8_decode($order->getBillingAddress()->getStreet3());
+                    $this->compradorComplemento = utf8_decode($order->getBillingAddress()->getStreet3());
 
-                $this->compradorBairro = utf8_decode($order->getBillingAddress()->getStreet4());
+                    $this->compradorBairro = utf8_decode($order->getBillingAddress()->getStreet4());
 
-                /* @required */
-                $this->compradorCidade = utf8_decode($order->getBillingAddress()->getCity());
+                    /* @required */
+                    $this->compradorCidade = utf8_decode($order->getBillingAddress()->getCity());
 
-                /* @required */
-                $this->compradorEstado = utf8_decode($order->getBillingAddress()->getRegion());
+                    /* @required */
+                    $this->compradorEstado = utf8_decode($order->getBillingAddress()->getRegion());
 
-                /* @required */
-                $this->compradorCpfCnpj = preg_replace("/[^0-9]/", "", $this->getData('customer_taxvat')); //$order->getCustomerTaxvat()
+                    /* @required */
+                    $this->compradorCpfCnpj = preg_replace("/[^0-9]/", "", $this->getData('customer_taxvat')); //$order->getCustomerTaxvat()
 
-                /* @required */
-                $this->compradorTelefone1 = str_replace("-", "", $order->getBillingAddress()->getData('telephone'));
+                    /* @required */
+                    $this->compradorTelefone1 = str_replace("-", "", $order->getBillingAddress()->getData('telephone'));
 
-                $this->compradorCelular = str_replace("-", "", $order->getBillingAddress()->getData('fax')); //Alteração Rodrigo
+                    $this->compradorCelular = str_replace("-", "", $order->getBillingAddress()->getData('fax')); //Alteração Rodrigo
 
-                if ($order->getRemoteIp()) {
-                    $this->compradorIp = $order->getRemoteIp();
-                }
+                    if ($order->getRemoteIp()) {
+                        $this->compradorIp = $order->getRemoteIp();
+                    }
 
-                /* @required */
-                $this->compradorEmail = (is_null($order->getBillingAddress()->getEmail())) ? $order->getCustomerEmail() : $order->getBillingAddress()->getEmail();
+                    /* @required */
+                    $this->compradorEmail = (is_null($order->getBillingAddress()->getEmail())) ? $order->getCustomerEmail() : $order->getBillingAddress()->getEmail();
 
-                if ($order->getCustomerGender()) {
-                    $this->compradorSexo = (intval($order->getCustomerGender()) === 123) ? 'M' : 'F';
-                }
+                    if ($order->getCustomerGender()) {
+                        $this->compradorSexo = (intval($order->getCustomerGender()) === 123) ? 'M' : 'F';
+                    }
 
-                if ($order->getCustomerDob()) {
-                    $dob = new DateTime($order->getCustomerDob());
+                    if ($order->getCustomerDob()) {
+                        $dob = new DateTime($order->getCustomerDob());
 
-                    $this->compradorDataNascimento = $dob->format('c');
-                }
+                        $this->compradorDataNascimento = $dob->format('c');
+                    }
 
-                $this->entregaCep = str_replace("-", "", preg_replace('/[^(\x20-\x7F)\x0A]*/', '', $order->getShippingAddress()->getPostcode()));
+                    $this->entregaCep = str_replace("-", "", preg_replace('/[^(\x20-\x7F)\x0A]*/', '', $order->getShippingAddress()->getPostcode()));
 
-                $this->entregaRua = utf8_decode($order->getShippingAddress()->getStreet1());
+                    $this->entregaRua = utf8_decode($order->getShippingAddress()->getStreet1());
 
-                $this->entregaNumero = ($order->getShippingAddress()->getStreet2()) ? $order->getShippingAddress()->getStreet2() : 'SN';
+                    $this->entregaNumero = ($order->getShippingAddress()->getStreet2()) ? $order->getShippingAddress()->getStreet2() : 'SN';
 
-                $this->entregaComplemento = utf8_decode($order->getShippingAddress()->getStreet3());
+                    $this->entregaComplemento = utf8_decode($order->getShippingAddress()->getStreet3());
 
-                $this->entregaBairro = utf8_decode($order->getShippingAddress()->getStreet4());
+                    $this->entregaBairro = utf8_decode($order->getShippingAddress()->getStreet4());
 
-                $this->entregaCidade = utf8_decode($order->getShippingAddress()->getCity());
+                    $this->entregaCidade = utf8_decode($order->getShippingAddress()->getCity());
 
-                $this->entregaEstado = utf8_decode($order->getShippingAddress()->getRegion());
+                    $this->entregaEstado = utf8_decode($order->getShippingAddress()->getRegion());
 
-                /* @required */
-                $this->entregaNome = $order->getShippingAddress()->getFirstname() . ' ' . $order->getShippingAddress()->getLastname();
+                    /* @required */
+                    $this->entregaNome = $order->getShippingAddress()->getFirstname() . ' ' . $order->getShippingAddress()->getLastname();
 
-                $this->entregaCpfCnpj = preg_replace("/[^0-9]/", "", $order->getCustomerTaxvat());;
+                    $this->entregaCpfCnpj = preg_replace("/[^0-9]/", "", $order->getCustomerTaxvat());;
 
-                if ($order->getCustomerGender()) {
-                    $this->entregaSexo = (intval($order->getCustomerGender()) === 123) ? 'M' : 'F';
-                }
+                    if ($order->getCustomerGender()) {
+                        $this->entregaSexo = (intval($order->getCustomerGender()) === 123) ? 'M' : 'F';
+                    }
 
-                if ($order->getCustomerDob()) {
-                    $dob = new DateTime($order->getCustomerDob());
+                    if ($order->getCustomerDob()) {
+                        $dob = new DateTime($order->getCustomerDob());
 
-                    $this->entregaDataNascimento = $dob->format('c');;
-                }
+                        $this->entregaDataNascimento = $dob->format('c');;
+                    }
 
-                $this->entregaEmail = (is_null($order->getShippingAddress()->getEmail())) ? $order->getCustomerEmail() : $order->getShippingAddress()->getEmail();
+                    $this->entregaEmail = (is_null($order->getShippingAddress()->getEmail())) ? $order->getCustomerEmail() : $order->getShippingAddress()->getEmail();
 
-                $adapter_payment = Mage::getModel('fcontrol/adapter_payment');
+                    $adapter_payment = Mage::getModel('fcontrol/adapter_payment');
 
-                $adapter_payment->filter($order->getPayment(), $this);
+                    $adapter_payment->filter($order->getPayment(), $this);
 
-                $this->cpfTitularCartao = preg_replace("/[^0-9]/", "", $order->getCustomerTaxvat());
+                    $this->cpfTitularCartao = preg_replace("/[^0-9]/", "", $order->getCustomerTaxvat());
 
-                $this->codigoPedido = $order->getIncrementId();
+                    $this->codigoPedido = $order->getIncrementId();
 
-                $created_at = new DateTime($order->getPayment()->getCreatedAt());
+                    $created_at = new DateTime($order->getPayment()->getCreatedAt());
 
-                /* @required; @format: ISO 8601 */
-                $this->dataCompra = $created_at->format('c');
+                    /* @required; @format: ISO 8601 */
+                    $this->dataCompra = $created_at->format('c');
 
-                $this->itensDistintos = count($order->getAllItems());
+                    $this->itensDistintos = count($order->getAllItems());
 
-                $this->itensTotal = 0;
+                    $this->itensTotal = 0;
 
-                $this->valorTotalCompra = number_format($order->getPayment()->getAmountOrdered(), 2, ".", "");
+                    $this->valorTotalCompra = number_format($order->getPayment()->getAmountOrdered(), 2, ".", "");
 
-                $this->valorTotalFrete = number_format($order->getBaseShippingAmount(), 2, ".", "");
+                    $this->valorTotalFrete = number_format($order->getBaseShippingAmount(), 2, ".", "");
 
-                $items_index = 0;
+                    $items_index = 0;
 
-                if ($order->getAllItems()) {
-                    foreach ($order->getAllItems() as $items) {
-                        if (is_null($items->getParentItemId())) {
-                            $this->produtoCodigo[$items_index] = utf8_decode($items->getProductId());
-                            $this->produtoDescricao[$items_index] = utf8_decode(str_replace("&", "", $items->getName()));
-                            $this->produtoQtde[$items_index] = number_format($items->getQtyOrdered(), 0, "", "");
-                            $this->produtoValor[$items_index] = number_format($items->getPrice(), 2, ".", "");
+                    if ($order->getAllItems()) {
+                        foreach ($order->getAllItems() as $items) {
+                            if (is_null($items->getParentItemId())) {
+                                $this->produtoCodigo[$items_index] = utf8_decode($items->getProductId());
+                                $this->produtoDescricao[$items_index] = utf8_decode(str_replace("&", "", $items->getName()));
+                                $this->produtoQtde[$items_index] = number_format($items->getQtyOrdered(), 0, "", "");
+                                $this->produtoValor[$items_index] = number_format($items->getPrice(), 2, ".", "");
 
-                            $this->itensTotal += intval($items->getQtyOrdered());
+                                $this->itensTotal += intval($items->getQtyOrdered());
 
-                            $item_data = Mage::getModel('catalog/product')->load($items->getProductId());
+                                $item_data = Mage::getModel('catalog/product')->load($items->getProductId());
 
-                            $this->produtoCategoria[$items_index] = implode(";", $item_data->getCategoryIds());
-                            $this->produtoListaCasamento[$items_index] = 'false';
-                            $this->produtoParaPresente[$items_index] = 'false';
-                            $items_index++;
+                                $this->produtoCategoria[$items_index] = implode(";", $item_data->getCategoryIds());
+                                $this->produtoListaCasamento[$items_index] = 'false';
+                                $this->produtoParaPresente[$items_index] = 'false';
+                                $items_index++;
+                            }
                         }
                     }
-                }
 
-                break;
+                    break;
+            }
+
+
+        } catch (Exception $e) {
+            Mage::helper("fcontrol")->saveLog("Exception - Fcontrol_Antifraude_Model_Api->analisaFrame2: " . $e->getMessage());
         }
     }
 
@@ -1337,25 +1343,40 @@ EOT;
 
     public function capturarResultados()
     {
-        $data = array(
-            'login' => $this->usuario,
-            'senha' => $this->senha
-        );
+        $this->_wsdl = $this->getEnvironmentUrl();
+        $this->usuario = $this->getUser();
+        $this->senha = $this->getPassword();
 
-        $client = new Zend_Soap_Client($this->_wsdl,
-            array(
-                'soap_version' => SOAP_1_1,
-                'encoding' => 'ISO-8859-1'
-            )
-        );
+        try {
+            $data = array(
+                'login' => $this->usuario,
+                'senha' => $this->senha
+            );
 
-        $result = $client->capturarResultadosGeral2($data);
+            $client = new Zend_Soap_Client($this->_wsdl,
+                array(
+                    'soap_version' => SOAP_1_1,
+                    'encoding' => 'ISO-8859-1'
+                )
+            );
 
-        return $result->capturarResultadosGeral2Result->WsAnalise2;
+            $result = $client->capturarResultadosGeral2($data);
+
+            return $result->capturarResultadosGeral2Result->WsAnalise2;
+
+        } catch (Exception $e) {
+            Mage::helper("fcontrol")->saveLog("Exception - Fcontrol_Antifraude_Model_Api_Abstract->capturarResultados(): " . $e->getMessage());
+        }
+
+        return null;
     }
 
     public function confirmarRetorno($pedido)
     {
+        $this->_wsdl = $this->getEnvironmentUrl();
+        $this->usuario = $this->getUser();
+        $this->senha = $this->getPassword();
+
         $data = array(
             'login' => $this->usuario,
             'senha' => $this->senha,
@@ -1410,7 +1431,7 @@ EOT;
     {
         if (!$this->hasData('fcontrol_password')) {
             $passwordDecrypt = Mage::helper('core')->decrypt(Mage::getStoreConfig('sales/fcontrol/password', $this->getStoreId()));
-            $this->setData('fcontrol_password',$passwordDecrypt);
+            $this->setData('fcontrol_password', $passwordDecrypt);
         }
         return $this->getData('fcontrol_password');
     }
