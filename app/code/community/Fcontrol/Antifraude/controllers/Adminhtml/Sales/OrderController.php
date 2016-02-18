@@ -61,13 +61,14 @@ class Fcontrol_Antifraude_Adminhtml_Sales_OrderController extends Mage_Adminhtml
                         }
                         break;
                 }
-
-                $this->renderLayout();
             }
 
         } catch (Exception $e) {
             Mage::helper("fcontrol")->saveLog("Exception - Fcontrol_Antifraude_Adminhtml_Sales_OrderController->viewAction(): " . $e->getMessage());
+            $this->_getSession()->addError($this->__('Falha ao enfileirar pedido. ' . $e->getMessage()));
         }
+
+        $this->renderLayout();
     }
 
     public function sendlistAction()

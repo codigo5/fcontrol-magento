@@ -321,7 +321,7 @@ class Fcontrol_Antifraude_Model_Observer
                 }
             }
         } catch (Mage_Core_Exception $e) {
-            // implement log
+            Mage::helper("fcontrol")->saveLog("Exception - Fcontrol_Antifraude_Model_Observer->captureOrder(): " . $e->getMessage());
         }
     }
 }

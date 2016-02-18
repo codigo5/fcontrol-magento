@@ -959,7 +959,7 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
                     $this->compradorEstado = utf8_decode($order->getBillingAddress()->getRegion());
 
                     /* @required */
-                    $this->compradorCpfCnpj = preg_replace("/[^0-9]/", "", $this->getData('customer_taxvat')); //$order->getCustomerTaxvat()
+                    $this->compradorCpfCnpj = preg_replace("/[^0-9]/", "", $order->getCustomerTaxvat());
 
                     /* @required */
                     $this->compradorTelefone1 = str_replace("-", "", $order->getBillingAddress()->getData('telephone'));
@@ -1068,6 +1068,7 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
 
     public function analisarTransacao()
     {
+        $this->_wsdl = $this->getEnvironmentUrl();
         $client = new Zend_Soap_Client($this->_wsdl,
             array(
                 'soap_version' => SOAP_1_1,
@@ -1309,6 +1310,7 @@ EOT;
 </enfileirarTransacao3>    
 EOT;
 
+        $this->_wsdl = $this->getEnvironmentUrl();
         $client = new nusoap_client($this->_wsdl, true);
 
         $client->soap_defencoding = 'ISO-8859-1';
@@ -1329,6 +1331,7 @@ EOT;
             'compartilharComentario' => $this->compartilharComentario
         );
 
+        $this->_wsdl = $this->getEnvironmentUrl();
         $client = new Zend_Soap_Client($this->_wsdl,
             array(
                 'soap_version' => SOAP_1_1,

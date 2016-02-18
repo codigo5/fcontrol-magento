@@ -79,9 +79,9 @@ class Fcontrol_Antifraude_Model_Api extends Fcontrol_Antifraude_Model_Api_Abstra
             'tocatins' => 'TO'
         );
 
-        if(isset($_state_sigla[$uf])) {
+        if (isset($_state_sigla[$uf])) {
             $uf = $_state_sigla[$uf];
-        }else {
+        } else {
             $uf = strtoupper($uf);
         }
 
@@ -145,8 +145,6 @@ class Fcontrol_Antifraude_Model_Api extends Fcontrol_Antifraude_Model_Api_Abstra
          Mage::log($datetime->format("h:m:s").'-'.$data."\n--------------------------------------------------", null, $name.'-fcontrol.log', true);
         */
         echo '<iframe height="115" frameborder="0" width="300" src="' . $url . '"></iframe>' . $this->checkRequiredFields();
-
-        Mage::helper("fcontrol")->saveLog("uaf: " . $uf, $this);
     }
 
     /* Proposta */
