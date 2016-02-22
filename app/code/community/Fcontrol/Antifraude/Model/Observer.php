@@ -125,7 +125,7 @@ class Fcontrol_Antifraude_Model_Observer
                     $api->alterarStatus();
                 }
             } catch (Mage_Core_Exception $e) {
-
+                Mage::helper("fcontrol")->saveLog("Exception - Fcontrol_Antifraude_Model_Observer->checkStatusFrame(): " . $e->getMessage());
             }
         }
     }
@@ -170,7 +170,7 @@ class Fcontrol_Antifraude_Model_Observer
                 return $api->enfileirarTransacao();
             }
         } catch (Mage_Core_Exception $e) {
-
+            Mage::helper("fcontrol")->saveLog("Exception - Fcontrol_Antifraude_Model_Observer->queueOrder(): " . $e->getMessage());
         }
     }
 

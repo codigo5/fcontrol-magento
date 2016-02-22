@@ -40,32 +40,40 @@ class Fcontrol_Antifraude_Adminhtml_Sales_OrderController extends Mage_Adminhtml
                     $this->_title(sprintf("#%s", $order->getRealOrderId()));
                 }
 
-                switch (Mage::helper('fcontrol')->getConfig('type_service')) {
-                    case Fcontrol_Antifraude_Model_Api::FRAME:
-                        $block = $this->getLayout()->createBlock(
-                            self::BLOCK_SALES_ORDER_FRAME,
-                            'fcontrol.sales.order.view.info',
-                            array(
-                                'template' => 'fcontrol/antifraude/sales/order/view/info.phtml',
-                                'before' => '-'
-                            )
-                        );
+                $confirmFcontrol = $this->getRequest()->getParam('fcontrol');
+                if ($confirmFcontrol) {
+                    switch (Mage::helper('fcontrol')->getConfig('type_service')) {
+                        case Fcontrol_Antifraude_Model_Api::FRAME:
+                            $block = $this->getLayout()->createBlock(
+                                self::BLOCK_SALES_ORDER_FRAME,
+                                'fcontrol.sales.order.view.info',
+                                array(
+                                    'template' => 'fcontrol/antifraude/sales/order/view/info.phtml',
+                                    'before' => '-'
+                                )
+                            );
 
-                        $this->getLayout()->getBlock('content')->insert($block);
-                        break;
-                    case Fcontrol_Antifraude_Model_Api::FILA_LOJISTA_UNICO:
-                    case Fcontrol_Antifraude_Model_Api::FILA_LOJISTA_PASSAGENS:
-                    case Fcontrol_Antifraude_Model_Api::FILA_VARIOS_LOJISTAS:
-                        if ($order->getId()) {
-                            Mage::getModel('fcontrol/observer')->queueOrder($order);
-                        }
-                        break;
+                            $this->getLayout()->getBlock('content')->insert($block);
+                            break;
+                        case Fcontrol_Antifraude_Model_Api::FILA_LOJISTA_UNICO:
+                        case Fcontrol_Antifraude_Model_Api::FILA_LOJISTA_PASSAGENS:
+                        case Fcontrol_Antifraude_Model_Api::FILA_VARIOS_LOJISTAS:
+                            if ($order->getId()) {
+                                $result = Mage::getModel('fcontrol/observer')->queueOrder($order);
+                                $this->_getSession()->addNotice($this->__('Pedido enfileirado no FControl. ' . $result));
+                                Mage::app()->getResponse()->setRedirect(Mage::getModel('core/url')->getUrl('*/sales_order/view', array('order_id' => $order->getId(), 'fcontrol' => false)))->sendResponse();
+                                exit;
+                            }
+                            break;
+                    }
                 }
             }
 
         } catch (Exception $e) {
             Mage::helper("fcontrol")->saveLog("Exception - Fcontrol_Antifraude_Adminhtml_Sales_OrderController->viewAction(): " . $e->getMessage());
-            $this->_getSession()->addError($this->__('Falha ao enfileirar pedido. ' . $e->getMessage()));
+            $this->_getSession()->addError($this->__('Falha ao utilizar FControl no pedido. ' . $e->getMessage()));
+            Mage::app()->getResponse()->setRedirect(Mage::getModel('core/url')->getUrl('*/sales_order/view', array('order_id' => $order->getId(), 'fcontrol' => false)))->sendResponse();
+            exit;
         }
 
         $this->renderLayout();
@@ -157,7 +165,7 @@ class Fcontrol_Antifraude_Adminhtml_Sales_OrderController extends Mage_Adminhtml
 
                 $this->_getSession()->setCountCaptureList(null);
                 $this->_getSession()->setCaptureList(null);
-            }else {
+            } else {
                 $this->_getSession()->addError($this->__('Não foi possível sincronizar com o FControl, verifique suas credenciais.'));
             }
         } catch (Mage_Core_Exception $e) {

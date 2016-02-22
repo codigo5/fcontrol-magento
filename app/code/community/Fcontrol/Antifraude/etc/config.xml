@@ -35,6 +35,7 @@
                     <sales_order>Fcontrol_Antifraude_Block_Adminhtml_Sales_Order</sales_order>
                     <sales_order_grid>Fcontrol_Antifraude_Block_Adminhtml_Sales_Order_Grid</sales_order_grid>
                     <sales_order_view_info>Fcontrol_Antifraude_Block_Adminhtml_Sales_Order_View_Info</sales_order_view_info>
+                    <sales_order_view>Fcontrol_Antifraude_Block_Adminhtml_Sales_Order_View</sales_order_view>
                 </rewrite>
             </adminhtml>
         </blocks>

@@ -32,7 +32,7 @@ if (version_compare(Mage::getVersion(), '1.3.3', '<=')) {
             if ($this->getOrder() && Mage::getModel('fcontrol/adapter_payment')->validate($this->getOrder()->getPayment())) {
                 Mage::getModel('fcontrol/observer')->frameOrder($this, true);
             } else {
-                $texto_fail = 'Este pedido não precisa ou não possui suporte para a Análise do FControl';
+                $texto_fail = 'Este pedido não precisa ou não possui suporte para a Análise do FControl.';
 
                 echo utf8_decode($texto_fail);
             }
