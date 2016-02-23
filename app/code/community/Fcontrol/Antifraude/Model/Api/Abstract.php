@@ -1427,7 +1427,8 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
         $celBilling = preg_replace("/[^0-9]/", "", $order->getBillingAddress()->getFax());
 
         $celBilling = trim($celBilling);
-
+        $dddCelularBilling = '';
+        $celularBilling = '';
         switch (strlen($celBilling)) {
             case 8:
                 $celularBilling = $celBilling;
@@ -1458,7 +1459,8 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
         $celShipping = preg_replace("/[^0-9]/", "", $order->getShippingAddress()->getFax());
 
         $celShipping = trim($celShipping);
-
+        $dddCelularShipping = '';
+        $celularShipping = '';
         switch (strlen($celShipping)) {
             case 8:
                 $celularShipping = $celShipping;
