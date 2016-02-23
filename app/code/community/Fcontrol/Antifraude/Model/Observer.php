@@ -86,6 +86,7 @@ class Fcontrol_Antifraude_Model_Observer
      */
     public static function checkStatusFrame()
     {
+        Mage::helper("fcontrol")->saveLog("Cron executado: fcontrol_observer_check_status - function checkStatusFrame()");
         if (intval(Mage::helper('fcontrol')->getConfig('type_service')) === Fcontrol_Antifraude_Model_Api::FRAME) {
 
             try {
@@ -125,7 +126,7 @@ class Fcontrol_Antifraude_Model_Observer
                     $api->alterarStatus();
                 }
             } catch (Mage_Core_Exception $e) {
-
+                Mage::helper("fcontrol")->saveLog("Exception - Fcontrol_Antifraude_Model_Observer->checkStatusFrame(): " . $e->getMessage());
             }
         }
     }
@@ -137,6 +138,7 @@ class Fcontrol_Antifraude_Model_Observer
      */
     public function queueListOrder()
     {
+        Mage::helper("fcontrol")->saveLog("Cron executado: fcontrol_observer_queue_transaction - function queueListOrder()");
         $quotes = Mage::getModel('sales/order')->getCollection();
 
         $quotes->addAttributeToFilter('state', Mage_Sales_Model_Order::STATE_NEW);
@@ -170,7 +172,7 @@ class Fcontrol_Antifraude_Model_Observer
                 return $api->enfileirarTransacao();
             }
         } catch (Mage_Core_Exception $e) {
-
+            Mage::helper("fcontrol")->saveLog("Exception - Fcontrol_Antifraude_Model_Observer->queueOrder(): " . $e->getMessage());
         }
     }
 
@@ -179,7 +181,7 @@ class Fcontrol_Antifraude_Model_Observer
      *
      * @return string
      */
-    public static function captureList($observer)
+    public static function captureList()
     {
         try {
             $api = Mage::getModel('fcontrol/api');
@@ -199,9 +201,11 @@ class Fcontrol_Antifraude_Model_Observer
      *
      * @return string
      */
-    public static function captureOrder($observer)
+    public static function captureOrder()
     {
         try {
+            Mage::helper("fcontrol")->saveLog("Cron executado: fcontrol_observer_capture_results - function captureOrder()");
+
             $data = self::captureList();
 
             $api = Mage::getModel('fcontrol/api');
@@ -321,7 +325,7 @@ class Fcontrol_Antifraude_Model_Observer
                 }
             }
         } catch (Mage_Core_Exception $e) {
-            // implement log
+            Mage::helper("fcontrol")->saveLog("Exception - Fcontrol_Antifraude_Model_Observer->captureOrder(): " . $e->getMessage());
         }
     }
 }

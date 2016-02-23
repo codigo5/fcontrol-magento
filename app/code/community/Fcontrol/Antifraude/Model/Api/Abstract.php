@@ -1,9 +1,5 @@
 <?php
 
-set_include_path(get_include_path() . PS . Mage::getBaseDir('lib') . DS . 'nusoap');
-
-require_once('nusoap.php');
-
 /**
  * Magento
  *
@@ -26,51 +22,29 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
 {
 
     /* Tipo de Serviço */
-
     const FRAME = 1;
-
     const FILA_LOJISTA_UNICO = 2;
-
     const FILA_LOJISTA_PASSAGENS = 3;
-
     const FILA_VARIOS_LOJISTAS = 4;
-
     const RECARGA_WEBSERVICE = 5;
 
     /* Status */
-
     const STATUS_PENDENTE = 1;
-
     const STATUS_ENVIADO = 2;
-
     const STATUS_CANCELADO = 3;
-
     const STATUS_AGUARDANDO_DOCUMENTACAO = 5;
-
     const STATUS_CANCELADO_POR_SUSPEITA = 6;
-
     const STATUS_APROVADA = 7;
-
     const STATUS_EM_ESPERA = 8;
-
     const STATUS_SOLICITADA_SUPERVISAO = 9;
-
     const STATUS_FRAUDE_CONFIRMADA = 10;
-
     const STATUS_EM_RECUPERACAO_DE_PERDA = 11;
-
     const STATUS_RECUPERADO = 12;
-
     const STATUS_REPROVADO_OPERADORA_CARTAO = 13;
-
     const STATUS_DESCANCELADO = 14;
-
     const STATUS_AGUARDANDO_DOCUMENTACAO_FILA = 17;
-
     const STATUS_SOLICITAR_CONTATO = 18;
-
     const STATUS_CONTATO_EFETUADO = 19;
-
     const STATUS_APROVADO_OPERADORA_CARTAO = 23;
 
     public static $acaoAprovar = array(
@@ -166,6 +140,13 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $compradorNome;
+
+    /**
+     * Parameter $compradorCodigo
+     *
+     * @var Fcontrol_Antifraude_Model_Api
+     */
+    public $compradorCodigo;
 
     /**
      * Parameter $compradorPais
@@ -308,140 +289,154 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
     public $compradorDataNascimento = '2000-01-01';
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $compradorDataCadastro
+     *
+     * @var Fcontrol_Antifraude_Model_Api
+     */
+    public $compradorDataCadastro = '2000-01-01';
+
+    /**
+     * Parameter $entregaPais
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $entregaPais;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $entregaCep
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $entregaCep;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $entregaRua
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $entregaRua;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $entregaNumero
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $entregaNumero;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $entregaComplemento
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $entregaComplemento;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $entregaBairro
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $entregaBairro;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $entregaCidade
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $entregaCidade;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $entregaEstado
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $entregaEstado;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $entregaDddTelefone1
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $entregaDddTelefone1;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $entregaNome
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $entregaNome;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $entregaTelefone1
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $entregaTelefone1;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $entregaDddCelular
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $entregaDddCelular;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $entregaCelular
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $entregaCelular;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $entregaDddTelefone2
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $entregaDddTelefone2;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $entregaTelefone2
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $entregaTelefone2;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $entregaCpfCnpj
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $entregaCpfCnpj;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $entregaSexo
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $entregaSexo;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $entregaDataNascimento
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $entregaDataNascimento = '2000-01-01';
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $entregaDataCadastro
+     *
+     * @var Fcontrol_Antifraude_Model_Api
+     */
+    public $entregaDataCadastro = '2000-01-01';
+
+    /**
+     * Parameter $entregaEmail
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $entregaEmail;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $metodoPagamento
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
@@ -455,21 +450,21 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
     public $nomeBancoEmissor;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $numeroCartao
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $numeroCartao;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $dataValidadeCartao
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $dataValidadeCartao;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $nomeTitularCartao
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
@@ -490,98 +485,97 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
     public $bin;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $quatroUltimosDigitosCartao
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $quatroUltimosDigitosCartao;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $bin2
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $bin2;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $binBanco
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $binBanco;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $binPais
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $binPais;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $pagadorDddTelefone
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $pagadorDddTelefone;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $pagadorTelefone
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $pagadorTelefone;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $valorPedido
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $valorPedido;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $numeroParcelas
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $numeroParcelas;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $codigoPedido
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $codigoPedido;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $dataCompra
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $dataCompra;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $itensDistintos
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $itensDistintos;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $itensTotal
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $itensTotal;
 
     /**
-     * Parameter $prazoEntrega
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $valorTotalCompra;
 
     /**
-     * Parameter $prazoEntrega
+     * Parameter $valorTotalFrete
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
@@ -614,6 +608,13 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
      * @var Fcontrol_Antifraude_Model_Api
      */
     public $canalVenda;
+
+    /**
+     * Parameter $codigoIntegrador
+     *
+     * @var Fcontrol_Antifraude_Model_Api
+     */
+    public $codigoIntegrador;
 
     /**
      * Parameter $extra1
@@ -713,350 +714,37 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
      */
     public $compartilharComentario = false;
 
+    /**
+     * __construct
+     */
     public function __construct()
     {
         $this->_wsdl = $this->getEnvironmentUrl();
-
         $this->usuario = $this->getUser();
-
         $this->senha = $this->getPassword();
-
         $this->compradorPais = $this->getCountry();
-
         $this->entregaPais = $this->getCountry();
-
         $this->canalVenda = Mage::app()->getStore()->getName();
-
-        $this->prazoEntrega = 0;
+        $this->prazoEntrega = 3;
     }
 
+    /**
+     * preparaTransacao
+     *
+     * @param $order
+     */
     public function preparaTransacao($order)
     {
         try {
             switch (Mage::helper('fcontrol')->getConfig('type_service')) {
                 case self::FRAME:
-                    /* @required */
-                    $this->compradorNome = utf8_decode($order->getBillingAddress()->getFirstname() . ' ' . $order->getBillingAddress()->getLastname());
-
-                    /* @required */
-                    $this->compradorCep = str_replace("-", "", preg_replace('/[^(\x20-\x7F)\x0A]*/', '', $order->getBillingAddress()->getPostcode()));
-
-                    /* @required */
-                    $this->compradorRua = utf8_decode($order->getBillingAddress()->getStreet1());
-
-                    /* @required */
-                    $this->compradorNumero = ($order->getBillingAddress()->getStreet2()) ? $order->getBillingAddress()->getStreet2() : 'SN';
-
-                    $this->compradorComplemento = utf8_decode($order->getBillingAddress()->getStreet3());
-
-                    $this->compradorBairro = utf8_decode($order->getBillingAddress()->getStreet4());
-
-                    /* @required */
-                    $this->compradorCidade = utf8_decode($order->getBillingAddress()->getCity());
-
-                    /* @required */
-                    $this->compradorEstado = utf8_decode($order->getBillingAddress()->getRegion());
-
-                    $telBilling = preg_replace("/[^0-9]/", "", $order->getBillingAddress()->getTelephone());
-
-                    $telBilling = trim($telBilling);
-
-                    switch (strlen($telBilling)) {
-                        case 8:
-                            $telephoneBilling = $telBilling;
-                            $dddTelephoneBilling = '';
-                            break;
-                        case 10:
-                            $telephoneBilling = substr($telBilling, -8);
-                            $dddTelephoneBilling = substr($telBilling, -10, 2);
-                            break;
-                        case 12:
-                            $telephoneBilling = substr($telBilling, -8);
-                            $dddTelephoneBilling = substr($telBilling, -10, 2);
-                            break;
-                    }
-
-                    $this->compradorDddTelefone1 = $dddTelephoneBilling;
-
-                    $this->compradorTelefone1 = $telephoneBilling;
-
-                    /* @required */
-                    $this->compradorCpfCnpj = preg_replace("/[^0-9]/", "", $order->getCustomerTaxvat());
-
-                    $telShipping = preg_replace("/[^0-9]/", "", $order->getShippingAddress()->getTelephone());
-
-                    $telShipping = trim($telShipping);
-
-                    switch (strlen($telShipping)) {
-                        case 8:
-                            $telephoneShipping = $telShipping;
-                            $dddTelephoneShipping = '';
-                            break;
-                        case 10:
-                            $telephoneShipping = substr($telShipping, -8);
-                            $dddTelephoneShipping = substr($telShipping, -10, 2);
-                            break;
-                        case 12:
-                            $telephoneShipping = substr($telShipping, -8);
-                            $dddTelephoneShipping = substr($telShipping, -10, 2);
-                            break;
-                    }
-
-
-                    /* Alteração Rodrigo - Ddd Celular*/
-
-                    $celBilling = preg_replace("/[^0-9]/", "", $order->getBillingAddress()->getFax());
-
-                    $celBilling = trim($celBilling);
-
-                    switch (strlen($celBilling)) {
-                        case 8:
-                            $celularBilling = $celBilling;
-                            $dddCelularBilling = '';
-                            break;
-                        case 9:
-                            $celularBilling = $celBilling;
-                            $dddCelularBilling = '';
-                            break;
-                        case 10:
-                            $celularBilling = substr($celBilling, -8);
-                            $dddCelularBilling = substr($celBilling, -10, 2);
-                            break;
-                        case 12:
-                            $celularBilling = substr($celBilling, -8);
-                            $dddCelularBilling = substr($celBilling, -10, 2);
-                            break;
-                        case 11:
-                            $celularBilling = substr($celBilling, -9);
-                            $dddCelularBilling = substr($celBilling, -11, 2);
-                            break;
-                    }
-
-                    $this->compradorDddCelular = $dddCelularBilling;
-
-                    $this->compradorCelular = $celularBilling;
-
-                    /* Alteração Rodrigo - Ddd Shipping*/
-                    $celShipping = preg_replace("/[^0-9]/", "", $order->getShippingAddress()->getFax());
-
-                    $celShipping = trim($celShipping);
-
-                    switch (strlen($celShipping)) {
-                        case 8:
-                            $celularShipping = $celShipping;
-                            $dddCelularShipping = '';
-                            break;
-                        case 9:
-                            $celularShipping = $celShipping;
-                            $dddCelularShipping = '';
-                            break;
-                        case 10:
-                            $celularShipping = substr($celShipping, -8);
-                            $dddCelularShipping = substr($celShipping, -10, 2);
-                            break;
-                        case 12:
-                            $celularShipping = substr($celShipping, -8);
-                            $dddCelularShipping = substr($celShipping, -10, 2);
-                            break;
-                        case 11:
-                            $celularShipping = substr($celShipping, -9);
-                            $dddCelularShipping = substr($celShipping, -11, 2);
-                            break;
-                    }
-
-                    /* @required */
-                    $this->compradorEmail = (is_null($order->getBillingAddress()->getEmail())) ? $order->getCustomerEmail() : $order->getBillingAddress()->getEmail();
-
-                    $this->entregaCep = str_replace("-", "", preg_replace('/[^(\x20-\x7F)\x0A]*/', '', $order->getShippingAddress()->getPostcode()));
-
-                    $this->entregaRua = utf8_decode($order->getShippingAddress()->getStreet1());
-
-                    $this->entregaNumero = ($order->getShippingAddress()->getStreet2()) ? $order->getShippingAddress()->getStreet2() : 'SN';
-
-                    $this->entregaBairro = utf8_decode($order->getShippingAddress()->getStreet4());
-
-                    $this->entregaCidade = utf8_decode($order->getShippingAddress()->getCity());
-
-                    $this->entregaEstado = utf8_decode($order->getShippingAddress()->getRegion());
-
-                    $this->entregaComplemento = utf8_decode($order->getShippingAddress()->getStreet3());
-
-
-                    /* @required */
-                    $this->entregaNome = $order->getShippingAddress()->getFirstname() . ' ' . $order->getShippingAddress()->getLastname();
-
-                    $this->entregaDddTelefone1 = $dddTelephoneShipping;
-
-                    $this->entregaTelefone1 = $telephoneShipping;
-
-                    $this->entregaDddCelular = $dddCelularShipping; //Alteração Rodrigo
-
-                    $this->entregaCelular = $celularShipping; // Alteração Rodrigo
-
-                    if ($order->getRemoteIp()) {  //Alteração Rodrigo
-                        $this->compradorIp = $order->getRemoteIp();
-                    }
-
-                    $this->entregaCpfCnpj = preg_replace("/[^0-9]/", "", $order->getCustomerTaxvat());
-
-                    $this->entregaEmail = $order->getShippingAddress()->getEmail();
-
-                    /* @required */
-                    $adapter_payment = Mage::getModel('fcontrol/adapter_payment');
-
-                    $adapter_payment->filter($order->getPayment(), $this);
-
-                    /* @required */
-                    $this->valorPedido = number_format($order->getPayment()->getAmountOrdered(), 2, ".", "");
-
-                    /* @required */
-                    $this->numeroParcelas = 1;
-
-                    $this->codigoPedido = $order->getIncrementId();
-
-                    /* @required; @format: ISO 8601 */
-                    $this->dataCompra = str_replace(" ", "+", $order->getCreatedAt());
-
-                    $this->itensTotal = 0;
-
-                    if ($order->getAllItems()) {
-                        foreach ($order->getAllItems() as $items) {
-                            if (is_null($items->getParentItemId())) {
-                                $this->itensTotal += intval($items->getQtyOrdered());
-                            }
-                        }
-                    }
-
-                    $this->itensDistintos = count($order->getAllItems());
-
-                    $this->valorTotalCompra = number_format($order->getPayment()->getAmountOrdered(), 2, ".", "");
+                    $this->chargeFrameValues($order);
                     break;
                 case self::FILA_LOJISTA_UNICO:
                 case self::FILA_LOJISTA_PASSAGENS:
                 case self::FILA_VARIOS_LOJISTAS:
                 case self::RECARGA_WEBSERVICE:
-
-                    /* @required */
-                    $this->compradorNome = utf8_decode($order->getBillingAddress()->getFirstname() . ' ' . $order->getBillingAddress()->getLastname());
-
-                    /* @required */
-                    $this->compradorCep = str_replace("-", "", preg_replace('/[^(\x20-\x7F)\x0A]*/', '', $order->getBillingAddress()->getPostcode()));
-
-                    /* @required */
-                    $this->compradorRua = utf8_decode($order->getBillingAddress()->getStreet1());
-
-                    /* @required */
-                    $this->compradorNumero = ($order->getBillingAddress()->getStreet2()) ? $order->getBillingAddress()->getStreet2() : 'SN';
-
-                    $this->compradorComplemento = utf8_decode($order->getBillingAddress()->getStreet3());
-
-                    $this->compradorBairro = utf8_decode($order->getBillingAddress()->getStreet4());
-
-                    /* @required */
-                    $this->compradorCidade = utf8_decode($order->getBillingAddress()->getCity());
-
-                    /* @required */
-                    $this->compradorEstado = utf8_decode($order->getBillingAddress()->getRegion());
-
-                    /* @required */
-                    $this->compradorCpfCnpj = preg_replace("/[^0-9]/", "", $this->getData('customer_taxvat')); //$order->getCustomerTaxvat()
-
-                    /* @required */
-                    $this->compradorTelefone1 = str_replace("-", "", $order->getBillingAddress()->getData('telephone'));
-
-                    $this->compradorCelular = str_replace("-", "", $order->getBillingAddress()->getData('fax')); //Alteração Rodrigo
-
-                    if ($order->getRemoteIp()) {
-                        $this->compradorIp = $order->getRemoteIp();
-                    }
-
-                    /* @required */
-                    $this->compradorEmail = (is_null($order->getBillingAddress()->getEmail())) ? $order->getCustomerEmail() : $order->getBillingAddress()->getEmail();
-
-                    if ($order->getCustomerGender()) {
-                        $this->compradorSexo = (intval($order->getCustomerGender()) === 123) ? 'M' : 'F';
-                    }
-
-                    if ($order->getCustomerDob()) {
-                        $dob = new DateTime($order->getCustomerDob());
-
-                        $this->compradorDataNascimento = $dob->format('c');
-                    }
-
-                    $this->entregaCep = str_replace("-", "", preg_replace('/[^(\x20-\x7F)\x0A]*/', '', $order->getShippingAddress()->getPostcode()));
-
-                    $this->entregaRua = utf8_decode($order->getShippingAddress()->getStreet1());
-
-                    $this->entregaNumero = ($order->getShippingAddress()->getStreet2()) ? $order->getShippingAddress()->getStreet2() : 'SN';
-
-                    $this->entregaComplemento = utf8_decode($order->getShippingAddress()->getStreet3());
-
-                    $this->entregaBairro = utf8_decode($order->getShippingAddress()->getStreet4());
-
-                    $this->entregaCidade = utf8_decode($order->getShippingAddress()->getCity());
-
-                    $this->entregaEstado = utf8_decode($order->getShippingAddress()->getRegion());
-
-                    /* @required */
-                    $this->entregaNome = $order->getShippingAddress()->getFirstname() . ' ' . $order->getShippingAddress()->getLastname();
-
-                    $this->entregaCpfCnpj = preg_replace("/[^0-9]/", "", $order->getCustomerTaxvat());;
-
-                    if ($order->getCustomerGender()) {
-                        $this->entregaSexo = (intval($order->getCustomerGender()) === 123) ? 'M' : 'F';
-                    }
-
-                    if ($order->getCustomerDob()) {
-                        $dob = new DateTime($order->getCustomerDob());
-
-                        $this->entregaDataNascimento = $dob->format('c');;
-                    }
-
-                    $this->entregaEmail = (is_null($order->getShippingAddress()->getEmail())) ? $order->getCustomerEmail() : $order->getShippingAddress()->getEmail();
-
-                    $adapter_payment = Mage::getModel('fcontrol/adapter_payment');
-
-                    $adapter_payment->filter($order->getPayment(), $this);
-
-                    $this->cpfTitularCartao = preg_replace("/[^0-9]/", "", $order->getCustomerTaxvat());
-
-                    $this->codigoPedido = $order->getIncrementId();
-
-                    $created_at = new DateTime($order->getPayment()->getCreatedAt());
-
-                    /* @required; @format: ISO 8601 */
-                    $this->dataCompra = $created_at->format('c');
-
-                    $this->itensDistintos = count($order->getAllItems());
-
-                    $this->itensTotal = 0;
-
-                    $this->valorTotalCompra = number_format($order->getPayment()->getAmountOrdered(), 2, ".", "");
-
-                    $this->valorTotalFrete = number_format($order->getBaseShippingAmount(), 2, ".", "");
-
-                    $items_index = 0;
-
-                    if ($order->getAllItems()) {
-                        foreach ($order->getAllItems() as $items) {
-                            if (is_null($items->getParentItemId())) {
-                                $this->produtoCodigo[$items_index] = utf8_decode($items->getProductId());
-                                $this->produtoDescricao[$items_index] = utf8_decode(str_replace("&", "", $items->getName()));
-                                $this->produtoQtde[$items_index] = number_format($items->getQtyOrdered(), 0, "", "");
-                                $this->produtoValor[$items_index] = number_format($items->getPrice(), 2, ".", "");
-
-                                $this->itensTotal += intval($items->getQtyOrdered());
-
-                                $item_data = Mage::getModel('catalog/product')->load($items->getProductId());
-
-                                $this->produtoCategoria[$items_index] = implode(";", $item_data->getCategoryIds());
-                                $this->produtoListaCasamento[$items_index] = 'false';
-                                $this->produtoParaPresente[$items_index] = 'false';
-                                $items_index++;
-                            }
-                        }
-                    }
-
+                    $this->chargeFilaValues($order);
                     break;
             }
 
@@ -1066,8 +754,14 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
         }
     }
 
+    /**
+     * function analisarTransacao
+     *
+     * @return mixed
+     */
     public function analisarTransacao()
     {
+        $this->_wsdl = $this->getEnvironmentUrl();
         $client = new Zend_Soap_Client($this->_wsdl,
             array(
                 'soap_version' => SOAP_1_1,
@@ -1190,134 +884,135 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
         return $result;
     }
 
-    /* @decrepted, i think that we can use the Zend_Soap_Client */
+    /**
+     * function enfileirarTransacao
+     *
+     * @return mixed
+     * @throws Exception
+     */
     public function enfileirarTransacao()
     {
-        $xml = <<<EOT
-<enfileirarTransacao3 xmlns="http://tempuri.org/">
-    <pedido>
-        <DadosUsuario>
-            <Login>{$this->usuario}</Login>
-            <Senha>{$this->senha}</Senha>
-        </DadosUsuario>
-        <DadosComprador>
-          <NomeComprador>{$this->compradorNome}</NomeComprador>
-          <Endereco>
-            <Pais>{$this->compradorPais}</Pais>
-            <Cep>{$this->compradorCep}</Cep>
-            <Rua>{$this->xmlentities($this->compradorRua)}</Rua>
-            <Numero>{$this->compradorNumero}</Numero>
-            <Complemento>{$this->xmlentities($this->compradorComplemento)}</Complemento>
-            <Bairro>{$this->xmlentities($this->compradorBairro)}</Bairro>
-            <Cidade>{$this->xmlentities($this->compradorCidade)}</Cidade>
-            <Estado>{$this->compradorEstado}</Estado>
-          </Endereco>
-          <CpfCnpj>{$this->compradorCpfCnpj}</CpfCnpj>
-          <DddTelefone>{$this->compradorDddTelefone1}</DddTelefone>
-          <NumeroTelefone>{$this->compradorTelefone1}</NumeroTelefone>
-          <DddCelular>{$this->compradorDddCelular}</DddCelular>
-          <NumeroCelular>{$this->compradorCelular}</NumeroCelular>
-          <IP>{$this->compradorIp}</IP>
-          <Email>{$this->compradorEmail}</Email>
-          <Senha>{$this->compradorSenha}</Senha>
-          <Sexo>{$this->compradorSexo}</Sexo>
-          <DddTelefone2>{$this->compradorDddTelefone2}</DddTelefone2>
-          <NumeroTelefone2>{$this->compradorTelefone2}</NumeroTelefone2>
-          <DataNascimento>{$this->compradorDataNascimento}</DataNascimento>
-        </DadosComprador>
-        <DadosEntrega>
-          <Endereco>
-            <Pais>{$this->entregaPais}</Pais>
-            <Cep>{$this->entregaCep}</Cep>
-            <Rua>{$this->xmlentities($this->entregaRua)}</Rua>
-            <Numero>{$this->entregaNumero}</Numero>
-            <Complemento>{$this->xmlentities($this->entregaComplemento)}</Complemento>
-            <Bairro>{$this->xmlentities($this->entregaBairro)}</Bairro>
-            <Cidade>{$this->xmlentities($this->entregaCidade)}</Cidade>
-            <Estado>{$this->entregaEstado}</Estado>
-          </Endereco>
-          <DddTelefone>{$this->entregaDddTelefone1}</DddTelefone>
-          <NumeroTelefone>{$this->entregaTelefone1}</NumeroTelefone>
-          <NomeEntrega>{$this->entregaNome}</NomeEntrega>
-          <DddTelefone2>{$this->entregaDddTelefone2}</DddTelefone2>
-          <NumeroTelefone2>{$this->entregaTelefone2}</NumeroTelefone2>
-          <DddCelular>{$this->entregaDddCelular}</DddCelular>
-          <NumeroCelular>{$this->entregaCelular}</NumeroCelular>
-          <CpfCnpj>{$this->entregaCpfCnpj}</CpfCnpj>
-          <Sexo>{$this->entregaSexo}</Sexo>
-          <DataNascimento>{$this->entregaDataNascimento}</DataNascimento>
-          <Email>{$this->entregaEmail}</Email>
-        </DadosEntrega>
-        <Pagamentos>
-          <WsPagamento>
-            <MetodoPagamento>{$this->metodoPagamento}</MetodoPagamento>
-            <Cartao>
-              <NomeBancoEmissor>{$this->nomeBancoEmissor}</NomeBancoEmissor>
-              <NumeroCartao>{$this->numeroCartao}</NumeroCartao>
-              <DataValidadeCartao>{$this->dataValidadeCartao}</DataValidadeCartao>
-              <NomeTitularCartao>{$this->nomeTitularCartao}</NomeTitularCartao>
-              <CpfTitularCartao>{$this->cpfTitularCartao}</CpfTitularCartao>
-              <Bin>{$this->bin}</Bin>
-              <quatroUltimosDigitosCartao>{$this->quatroUltimosDigitosCartao}</quatroUltimosDigitosCartao>
-              <Bin_payment>{$this->bin2}</Bin_payment>
-              <BinBanco>{$this->binBanco}</BinBanco>
-              <BinPais>{$this->binPais}</BinPais>
-              <DddTelefone2>{$this->pagadorDddTelefone}</DddTelefone2>
-              <NumeroTelefone2>{$this->pagadorTelefone}</NumeroTelefone2>
-            </Cartao>
-            <Valor>{$this->format($this->valorPedido)}</Valor>
-            <NumeroParcelas>{$this->numeroParcelas}</NumeroParcelas>
-          </WsPagamento>
-        </Pagamentos>		
-        <CodigoPedido>{$this->codigoPedido}</CodigoPedido>
-        <DataCompra>{$this->dataCompra}</DataCompra>
-        <QuantidadeItensDistintos>{$this->itensDistintos}</QuantidadeItensDistintos>
-        <QuantidadeTotalItens>{$this->itensTotal}</QuantidadeTotalItens>
-        <ValorTotalCompra>{$this->format($this->valorTotalCompra)}</ValorTotalCompra>
-        <ValorTotalFrete>{$this->format($this->valorTotalFrete)}</ValorTotalFrete>
-        <PedidoDeTeste>false</PedidoDeTeste>
-        <PrazoEntregaDias>{$this->prazoEntrega}</PrazoEntregaDias>
-        <FormaEntrega>{$this->formaEntrega}</FormaEntrega>
-        <Observacao>{$this->observacao}</Observacao>
-        <CanalVenda>{$this->canalVenda}</CanalVenda>
-        <Produtos>
-EOT;
+        $this->codigoIntegrador = $this->getCodigoIntegrador(false, true);
+        $this->pedidoTeste = $this->getPedidoTeste();
+
+        $this->_wsdl = $this->getEnvironmentUrl();
+        $client = new Zend_Soap_Client($this->_wsdl,
+            array(
+                'soap_version' => SOAP_1_1,
+                'encoding' => 'UTF-8'
+            )
+        );
+        $data = array(
+            'pedido' => array(
+                'DadosUsuario' => array(
+                    'Login' => $this->usuario,
+                    'Senha' => $this->senha
+                ),
+                'CodigoPedido' => $this->codigoPedido,
+                'DataCompra' => (string)$this->dataCompra,
+                'DataEntrega' => '2010-05-10T15:00:00',
+                'QuantidadeItensDistintos' => (string)$this->itensDistintos,
+                'QuantidadeTotalItens' => (string)$this->itensTotal,
+                'ValorTotalCompra' => (string)$this->format($this->valorTotalCompra),
+                'ValorTotalFrete' => (string)$this->format($this->valorTotalFrete),
+                'PedidoDeTeste' => $this->pedidoTeste,
+                'PrazoEntregaDias' => (string)$this->prazoEntrega,
+                'FormaEntrega' => (string)$this->formaEntrega,
+                'Observacao' => (string)$this->observacao,
+                'CanalVenda' => (string)$this->canalVenda,
+                'StatusFinalizador' => 'Pendente',
+                'CodigoIntegrador' => $this->codigoIntegrador,
+                'DadosComprador' => array(
+                    'NomeComprador' => $this->compradorNome,
+                    'Codigo' => $this->compradorCodigo,
+                    'CpfCnpj' => $this->compradorCpfCnpj,
+                    'Email' => $this->compradorEmail,
+                    'DataCadastro' => $this->compradorDataCadastro,
+                    'Endereco' => array(
+                        'Pais' => $this->compradorPais,
+                        'Cep' => $this->compradorCep,
+                        'Rua' => $this->xmlentities($this->compradorRua),
+                        'Numero' => $this->compradorNumero,
+                        'Complemento' => $this->xmlentities($this->compradorComplemento),
+                        'Bairro' => $this->xmlentities($this->compradorBairro),
+                        'Cidade' => $this->xmlentities($this->compradorCidade),
+                        'Estado' => $this->compradorEstado
+                    ),
+                    'DataNascimento' => (string)$this->compradorDataNascimento,
+                    'IP' => $this->compradorIp,
+                    'Senha' => $this->compradorSenha,
+                    'DddTelefone' => $this->compradorDddTelefone1,
+                    'NumeroTelefone' => $this->compradorTelefone1,
+                    'DddTelefone2' => $this->compradorDddTelefone2,
+                    'NumeroTelefone2' => $this->compradorTelefone2,
+                    'DddCelular' => $this->compradorDddCelular,
+                    'NumeroCelular' => $this->compradorCelular
+                ),
+                'DadosEntrega' => array(
+                    'NomeEntrega' => $this->entregaNome,
+                    'DataCadastro' => $this->entregaDataCadastro,
+                    'Endereco' => array(
+                        'Pais' => $this->entregaPais,
+                        'Cep' => $this->entregaCep,
+                        'Rua' => $this->xmlentities($this->entregaRua),
+                        'Numero' => $this->entregaNumero,
+                        'Complemento' => $this->xmlentities($this->entregaComplemento),
+                        'Bairro' => $this->xmlentities($this->entregaBairro),
+                        'Cidade' => $this->xmlentities($this->entregaCidade),
+                        'Estado' => $this->entregaEstado
+                    ),
+                    'DataNascimento' => (string)$this->entregaDataNascimento,
+                    'DddTelefone' => $this->entregaDddTelefone1,
+                    'NumeroTelefone' => $this->entregaTelefone1,
+                    'DddTelefone2' => $this->entregaDddTelefone2,
+                    'NumeroTelefone2' => $this->entregaTelefone2,
+                    'DddCelular' => $this->entregaDddCelular,
+                    'NumeroCelular' => $this->entregaCelular
+                ),
+                'Pagamentos' => array(
+                    'WsPagamento2' => array(
+                        'MetodoPagamento' => $this->metodoPagamento,
+                        'Valor' => (string)$this->format($this->valorPedido),
+                        'NumeroParcelas' => (string)$this->numeroParcelas
+                    )
+                )
+            )
+        );
+
+        $data['pedido']['Produtos'] = array();
         for ($i = 0; $i < count($this->produtoCodigo); $i++) {
-            $xml .= "
-        <WsProduto3>
-            <Codigo>{$this->produtoCodigo[$i]}</Codigo>
-            <Descricao>{$this->produtoDescricao[$i]}</Descricao>
-            <Quantidade>{$this->produtoQtde[$i]}</Quantidade>
-            <ValorUnitario>{$this->format($this->produtoValor[$i])}</ValorUnitario>
-            <Categoria>{$this->produtoCategoria[$i]}</Categoria>
-            <ListaDeCasamento>{$this->produtoListaCasamento[$i]}</ListaDeCasamento>
-            <ParaPresente>{$this->produtoParaPresente[$i]}</ParaPresente>
-        </WsProduto3>";
+            $data['pedido']['Produtos']['WsProduto3'] = array(
+                'Codigo' => $this->produtoCodigo[$i],
+                'Descricao' => $this->produtoDescricao[$i],
+                'Quantidade' => $this->produtoQtde[$i],
+                'ValorUnitario' => $this->format($this->produtoValor[$i]),
+                'Categoria' => $this->produtoCategoria[$i],
+                'ListaDeCasamento' => $this->produtoListaCasamento[$i],
+                'ParaPresente' => $this->produtoParaPresente[$i]
+            );
         }
 
-        $xml .= "\n";
+        $data['pedido']['DadosExtra'] = array(
+            'Extra1' => $this->extra1,
+            'Extra2' => $this->extra2,
+            'Extra3' => $this->extra3,
+            'Extra4' => $this->extra4
+        );
 
-        $xml .= <<<EOT
-        </Produtos>
-        <DadosExtra>
-          <Extra1>{$this->extra1}</Extra1>		
-          <Extra2>{$this->extra2}</Extra2>
-          <Extra3>{$this->extra3}</Extra3>
-          <Extra4>{$this->extra4}</Extra4>
-        </DadosExtra>
-    </pedido>
-</enfileirarTransacao3>    
-EOT;
+        $result = $client->enfileirarTransacao9($data);
 
-        $client = new nusoap_client($this->_wsdl, true);
+        if (!$result->enfileirarTransacao9Result->Sucesso) {
+            throw new Exception($result->enfileirarTransacao9Result->Mensagem);
+        }
 
-        $client->soap_defencoding = 'ISO-8859-1';
-
-        $result = $client->call('enfileirarTransacao3', $xml);
-
-        return $result;
+        return $result->enfileirarTransacao9Result->Mensagem;
     }
 
+    /**
+     * alterarStatus
+     *
+     * @return mixed
+     */
     public function alterarStatus()
     {
         $data = array(
@@ -1329,6 +1024,7 @@ EOT;
             'compartilharComentario' => $this->compartilharComentario
         );
 
+        $this->_wsdl = $this->getEnvironmentUrl();
         $client = new Zend_Soap_Client($this->_wsdl,
             array(
                 'soap_version' => SOAP_1_1,
@@ -1341,6 +1037,11 @@ EOT;
         return $result;
     }
 
+    /**
+     * capturarResultados
+     *
+     * @return null
+     */
     public function capturarResultados()
     {
         $this->_wsdl = $this->getEnvironmentUrl();
@@ -1371,6 +1072,12 @@ EOT;
         return null;
     }
 
+    /**
+     * confirmarPedido
+     *
+     * @param $pedido
+     * @return mixed
+     */
     public function confirmarRetorno($pedido)
     {
         $this->_wsdl = $this->getEnvironmentUrl();
@@ -1395,17 +1102,34 @@ EOT;
         return $result;
     }
 
+    /**
+     * xmlentities
+     *
+     * @param $text
+     * @return mixed
+     */
     protected function xmlentities($text)
     {
         $text = str_replace("&", "&#38;#38;", $text);
         return $text;
     }
 
+    /**
+     * format
+     *
+     * @param $currency
+     * @return float
+     */
     protected function format($currency)
     {
-        return (float)$currency * 100;
+        return (int)$currency * 100;
     }
 
+    /**
+     * getEnvironmentUrl
+     *
+     * @return string
+     */
     public function getEnvironmentUrl()
     {
         $wsdlUrl = "http://secure.fcontrol.com.br/WSFControl2/WSFControl2.asmx?wsdl";
@@ -1419,6 +1143,54 @@ EOT;
         return $wsdlUrl;
     }
 
+    /**
+     * getCodigoIntegrador
+     *
+     * @return string
+     */
+    public function getCodigoIntegrador($frame = false, $fila = false)
+    {
+        $codInteg = "0";
+
+        if (!$this->hasData('fcontrol_sandbox')) {
+            $this->setData('fcontrol_sandbox', Mage::getStoreConfig('sales/fcontrol/sandbox', $this->getStoreId()));
+        }
+
+        if($frame) {
+            if (!$this->getData('fcontrol_sandbox')) {
+                $codInteg = "91";
+            }
+        } else if($fila) {
+            if (!$this->getData('fcontrol_sandbox')) {
+                $codInteg = "92";
+            }
+        }
+
+        return $codInteg;
+    }
+
+    /**
+     * getPedidoTeste
+     *
+     * @return string
+     */
+    public function getPedidoTeste()
+    {
+        if (!$this->hasData('fcontrol_sandbox')) {
+            $this->setData('fcontrol_sandbox', Mage::getStoreConfig('sales/fcontrol/sandbox', $this->getStoreId()));
+        }
+        if ($this->getData('fcontrol_sandbox')) {
+            return "true";
+        }
+
+        return "false";
+    }
+
+    /**
+     * getUser
+     *
+     * @return mixed
+     */
     public function getUser()
     {
         if (!$this->hasData('fcontrol_user')) {
@@ -1427,6 +1199,11 @@ EOT;
         return $this->getData('fcontrol_user');
     }
 
+    /**
+     * getPassword
+     *
+     * @return mixed
+     */
     public function getPassword()
     {
         if (!$this->hasData('fcontrol_password')) {
@@ -1436,6 +1213,11 @@ EOT;
         return $this->getData('fcontrol_password');
     }
 
+    /**
+     * getTypeService
+     *
+     * @return mixed
+     */
     public function getTypeService()
     {
         if (!$this->hasData('fcontrol_type_service')) {
@@ -1444,11 +1226,22 @@ EOT;
         return $this->getData('fcontrol_type_service');
     }
 
+    /**
+     * getNow
+     *
+     * @return mixed
+     */
     public function getNow()
     {
         return Mage::getSingleton('core/date')->date('Y-m-d H:i:s');
     }
 
+    /**
+     * getCountry
+     *
+     * @param null $country_name
+     * @return null
+     */
     public function getCountry($country_name = null)
     {
         if (is_null($country_name)) {
@@ -1464,5 +1257,302 @@ EOT;
         }
 
         return $country_name;
+    }
+
+    /**
+     * chargeFrameValues
+     *
+     * @param $order
+     */
+    private function chargeFrameValues($order)
+    {
+        // call chargeOrderDataValues
+        $this->chargeOrderDataValues($order);
+    }
+
+    /**
+     * chargeFilaValues
+     *
+     * @param $order
+     */
+    private function chargeFilaValues($order)
+    {
+        /* @required */
+        $this->compradorTelefone1 = str_replace("-", "", $order->getBillingAddress()->getData('telephone'));
+
+        $this->compradorCelular = str_replace("-", "", $order->getBillingAddress()->getData('fax'));
+
+
+        if ($order->getCustomerGender()) {
+            $this->compradorSexo = (intval($order->getCustomerGender()) === 1) ? 'M' : 'F';
+        }
+
+        if ($order->getCustomerDob()) {
+            $dob = new DateTime($order->getCustomerDob());
+
+            $this->compradorDataNascimento = $dob->format('Y-m-d');
+        }
+
+        $customer = Mage::getModel('customer/address')->load($order->getCustomerId());
+        if ($customer->getCreatedAt()) {
+            $dcad = new DateTime($customer->getCreatedAt());
+
+            $this->compradorDataCadastro = $dcad->format('Y-m-d');
+        }
+
+
+        if ($order->getCustomerGender()) {
+            $this->entregaSexo = (intval($order->getCustomerGender()) === 1) ? 'M' : 'F';
+        }
+
+        if ($order->getCustomerDob()) {
+            $dob = new DateTime($order->getCustomerDob());
+
+            $this->entregaDataNascimento = $dob->format('Y-m-d');;
+        }
+
+        if ($order->getCreatedAt()) {
+            $dcreat= new DateTime($order->getCreatedAt());
+
+            $this->entregaDataCadastro = $dcreat->format('Y-m-d');;
+        }
+
+        $this->entregaEmail = (is_null($order->getShippingAddress()->getEmail())) ? $order->getCustomerEmail() : $order->getShippingAddress()->getEmail();
+
+        $adapter_payment = Mage::getModel('fcontrol/adapter_payment');
+
+        $adapter_payment->filter($order->getPayment(), $this);
+
+        $this->cpfTitularCartao = preg_replace("/[^0-9]/", "", $order->getCustomerTaxvat());
+
+        $items_index = 0;
+        if ($order->getAllItems()) {
+            foreach ($order->getAllItems() as $items) {
+                if (is_null($items->getParentItemId())) {
+                    $this->produtoCodigo[$items_index] = utf8_decode($items->getProductId());
+                    $this->produtoDescricao[$items_index] = utf8_decode(str_replace("&", "", $items->getName()));
+                    $this->produtoQtde[$items_index] = number_format($items->getQtyOrdered(), 0, "", "");
+                    $this->produtoValor[$items_index] = number_format($items->getPrice(), 2, ".", "");
+
+                    $item_data = Mage::getModel('catalog/product')->load($items->getProductId());
+
+                    $this->produtoCategoria[$items_index] = implode(";", $item_data->getCategoryIds());
+                    $this->produtoListaCasamento[$items_index] = 'false';
+                    $this->produtoParaPresente[$items_index] = 'false';
+                    $items_index++;
+                }
+            }
+        }
+
+        // call chargeOrderDataValues
+        $this->chargeOrderDataValues($order);
+    }
+
+    /**
+     * chargeOrderDataValues
+     *
+     * @param $order
+     */
+    private function chargeOrderDataValues($order)
+    {
+        /* @required */
+        $this->compradorNome = utf8_decode($order->getBillingAddress()->getFirstname() . ' ' . $order->getBillingAddress()->getLastname());
+
+        $this->compradorCodigo = (string) $order->getCustomerId();
+
+        /* @required */
+        $this->compradorCep = preg_replace("/^(\d{5})(\d{3})$/", "\\1-\\2", $order->getBillingAddress()->getPostcode());
+
+        /* @required */
+        $this->compradorRua = utf8_decode($order->getBillingAddress()->getStreet1());
+
+        /* @required */
+        $this->compradorNumero = ($order->getBillingAddress()->getStreet2()) ? $order->getBillingAddress()->getStreet2() : 'SN';
+
+        $this->compradorComplemento = utf8_decode($order->getBillingAddress()->getStreet3());
+
+        $this->compradorBairro = utf8_decode($order->getBillingAddress()->getStreet4());
+
+        /* @required */
+        $this->compradorCidade = utf8_decode($order->getBillingAddress()->getCity());
+
+        /* @required */
+        $this->compradorEstado = utf8_decode($order->getBillingAddress()->getRegion());
+
+        $telBilling = preg_replace("/[^0-9]/", "", $order->getBillingAddress()->getTelephone());
+
+        $telBilling = trim($telBilling);
+
+        switch (strlen($telBilling)) {
+            case 8:
+                $telephoneBilling = $telBilling;
+                $dddTelephoneBilling = '';
+                break;
+            case 10:
+                $telephoneBilling = substr($telBilling, -8);
+                $dddTelephoneBilling = substr($telBilling, -10, 2);
+                break;
+            case 12:
+                $telephoneBilling = substr($telBilling, -8);
+                $dddTelephoneBilling = substr($telBilling, -10, 2);
+                break;
+        }
+
+        $this->compradorDddTelefone1 = $dddTelephoneBilling;
+
+        $this->compradorTelefone1 = $telephoneBilling;
+
+        /* @required */
+        $this->compradorCpfCnpj = preg_replace("/[^0-9]/", "", $order->getCustomerTaxvat());
+
+        $telShipping = preg_replace("/[^0-9]/", "", $order->getShippingAddress()->getTelephone());
+
+        $telShipping = trim($telShipping);
+
+        switch (strlen($telShipping)) {
+            case 8:
+                $telephoneShipping = $telShipping;
+                $dddTelephoneShipping = '';
+                break;
+            case 10:
+                $telephoneShipping = substr($telShipping, -8);
+                $dddTelephoneShipping = substr($telShipping, -10, 2);
+                break;
+            case 12:
+                $telephoneShipping = substr($telShipping, -8);
+                $dddTelephoneShipping = substr($telShipping, -10, 2);
+                break;
+        }
+
+        $celBilling = preg_replace("/[^0-9]/", "", $order->getBillingAddress()->getFax());
+
+        $celBilling = trim($celBilling);
+        $dddCelularBilling = '';
+        $celularBilling = '';
+        switch (strlen($celBilling)) {
+            case 8:
+                $celularBilling = $celBilling;
+                $dddCelularBilling = '';
+                break;
+            case 9:
+                $celularBilling = $celBilling;
+                $dddCelularBilling = '';
+                break;
+            case 10:
+                $celularBilling = substr($celBilling, -8);
+                $dddCelularBilling = substr($celBilling, -10, 2);
+                break;
+            case 12:
+                $celularBilling = substr($celBilling, -8);
+                $dddCelularBilling = substr($celBilling, -10, 2);
+                break;
+            case 11:
+                $celularBilling = substr($celBilling, -9);
+                $dddCelularBilling = substr($celBilling, -11, 2);
+                break;
+        }
+
+        $this->compradorDddCelular = $dddCelularBilling;
+
+        $this->compradorCelular = $celularBilling;
+
+        $celShipping = preg_replace("/[^0-9]/", "", $order->getShippingAddress()->getFax());
+
+        $celShipping = trim($celShipping);
+        $dddCelularShipping = '';
+        $celularShipping = '';
+        switch (strlen($celShipping)) {
+            case 8:
+                $celularShipping = $celShipping;
+                $dddCelularShipping = '';
+                break;
+            case 9:
+                $celularShipping = $celShipping;
+                $dddCelularShipping = '';
+                break;
+            case 10:
+                $celularShipping = substr($celShipping, -8);
+                $dddCelularShipping = substr($celShipping, -10, 2);
+                break;
+            case 12:
+                $celularShipping = substr($celShipping, -8);
+                $dddCelularShipping = substr($celShipping, -10, 2);
+                break;
+            case 11:
+                $celularShipping = substr($celShipping, -9);
+                $dddCelularShipping = substr($celShipping, -11, 2);
+                break;
+        }
+
+        /* @required */
+        $this->compradorEmail = (is_null($order->getBillingAddress()->getEmail())) ? $order->getCustomerEmail() : $order->getBillingAddress()->getEmail();
+
+        $this->entregaCep = preg_replace("/^(\d{5})(\d{3})$/", "\\1-\\2", $order->getShippingAddress()->getPostcode());
+
+        $this->entregaRua = utf8_decode($order->getShippingAddress()->getStreet1());
+
+        $this->entregaNumero = ($order->getShippingAddress()->getStreet2()) ? $order->getShippingAddress()->getStreet2() : 'SN';
+
+        $this->entregaBairro = utf8_decode($order->getShippingAddress()->getStreet4());
+
+        $this->entregaCidade = utf8_decode($order->getShippingAddress()->getCity());
+
+        $this->entregaEstado = utf8_decode($order->getShippingAddress()->getRegion());
+
+        $this->entregaComplemento = utf8_decode($order->getShippingAddress()->getStreet3());
+
+        $this->formaEntrega = utf8_decode($order->getShippingDescription());
+
+        $this->canalVenda = Mage::app()->getStore()->getName();
+
+        /* @required */
+        $this->entregaNome = $order->getShippingAddress()->getFirstname() . ' ' . $order->getShippingAddress()->getLastname();
+
+        $this->entregaDddTelefone1 = $dddTelephoneShipping;
+
+        $this->entregaTelefone1 = $telephoneShipping;
+
+        $this->entregaDddCelular = $dddCelularShipping;
+
+        $this->entregaCelular = $celularShipping;
+
+        if ($order->getRemoteIp()) {
+            $this->compradorIp = $order->getRemoteIp();
+        }
+
+        $this->entregaCpfCnpj = preg_replace("/[^0-9]/", "", $order->getCustomerTaxvat());
+
+        $this->entregaEmail = $order->getShippingAddress()->getEmail();
+
+        /* @required */
+        $adapter_payment = Mage::getModel('fcontrol/adapter_payment');
+
+        $adapter_payment->filter($order->getPayment(), $this);
+
+        /* @required */
+        $this->numeroParcelas = 1;
+
+        $this->codigoPedido = $order->getIncrementId();
+
+        $created_at = new DateTime($order->getPayment()->getCreatedAt());
+        /* @required; @format: ISO 8601 */
+        $this->dataCompra = $created_at->format('Y-m-d\TH:i:s');
+
+        $this->itensTotal = 0;
+        $this->itensDistintos = 0;
+        if ($order->getAllItems()) {
+            foreach ($order->getAllItems() as $items) {
+                if (is_null($items->getParentItemId())) {
+                    $this->itensTotal += intval($items->getQtyOrdered());
+                    $this->itensDistintos++;
+                }
+            }
+        }
+
+        $this->valorTotalFrete = number_format($order->getBaseShippingAmount(), 2, ".", "");
+        $this->valorTotalCompra = number_format($order->getPayment()->getAmountOrdered(), 2, ".", "");
+
+        /* @required */
+        $this->valorPedido = number_format(($this->valorTotalFrete + $this->valorTotalCompra), 2, ".", "");
     }
 }

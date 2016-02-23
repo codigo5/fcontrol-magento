@@ -37,7 +37,7 @@ class Fcontrol_Antifraude_Model_Config extends Varien_Object
         return $this->_config[$key][$storeId];
     }
 
-    public function getAccount($store = null)
+    public function getAccount($storeId = null)
     {
         if (!$this->hasData('fcontrol_account')) {
             $this->setData('fcontrol_account', $this->getConfigData('account', $storeId));
