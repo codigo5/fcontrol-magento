@@ -21,7 +21,7 @@
 
 <div class="entry-edit">
     <div class="entry-edit-head">
-        <h4 class="icon-head head-account"><?php echo Mage::helper('sales')->__('Análise de Pagamento FControl') ?></h4>
+        <h4 class="icon-head head-account"><?php echo Mage::helper('sales')->__('Análise de risco da transação') ?></h4>
     </div>
     <div class="fieldset">
         <div class="hor-scroll">
@@ -29,8 +29,8 @@
                 <tr>
                     <td class="label" style="display: none;">
                         <label><?php echo Mage::helper('fcontrol')->__('Informações da Análise') ?></label></td>
-                    <td class="value">
-                        <div style="display: block;">
+                    <td>
+                        <div style="display: block; width: 100%;">
                             <?php echo $this->getScore(); ?>
                         </div>
                     </td>
