@@ -38,100 +38,63 @@ class Fcontrol_Antifraude_Model_Api extends Fcontrol_Antifraude_Model_Api_Abstra
 
     public function analisaFrame()
     {
-        function retira_acentos($texto)
-        {
-            return strtr($texto, "áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ", "aaaaeeiooouucAAAAEEIOOOUUC");
-        }
-
         $url = $this->_urlFrame . '/validatorframe.aspx';
 
-        $uf = retira_acentos($this->compradorEstado);
-        $uf = strtolower($uf);
-        $uf = str_replace(' ', '_', $uf);
-
-        $_state_sigla = array(
-            'acre' => 'AC',
-            'alagoas' => 'AL',
-            'amapa' => 'AP',
-            'amazonas' => 'AM',
-            'bahia' => 'BA',
-            'ceara' => 'CE',
-            'distrito_federal' => 'DF',
-            'espirito_santo' => 'ES',
-            'goias' => 'GO',
-            'maranhao' => 'MA',
-            'mato_grosso' => 'MT',
-            'mato_grosso_do_sul' => 'MS',
-            'minas_gerais' => 'MG',
-            'para' => 'PA',
-            'paraiba' => 'PB',
-            'parana' => 'PR',
-            'pernambuco' => 'PE',
-            'piaui' => 'PI',
-            'rio_de_janeiro' => 'RJ',
-            'rio_grande_do_norte' => 'RN',
-            'rio_grande_do_sul' => 'RS',
-            'rondonia' => 'RO',
-            'roraima' => 'RR',
-            'santa_catarina' => 'SC',
-            'sao_paulo' => 'SP',
-            'sergipe' => 'SE',
-            'tocatins' => 'TO'
-        );
-
-        if (isset($_state_sigla[$uf])) {
-            $uf = $_state_sigla[$uf];
-        } else {
-            $uf = strtoupper($uf);
-        }
+        $ufComprador = $this->getStateSigla($this->compradorEstado);
+        $ufEntrega = $this->getStateSigla($this->entregaEstado);
 
 
         $url .= '?login=' . $this->getUser();
         $url .= '&senha=' . $this->getPassword();
         $url .= '&nomeComprador=' . $this->compradorNome;
+        $url .= '&sexoComprador=' . $this->compradorSexo;
         $url .= '&ruaComprador=' . $this->compradorRua;
         $url .= '&numeroComprador=' . $this->compradorNumero;
-        $url .= '&bairroComprador=' . $this->compradorBairro; //Atualizacao
-        $url .= '&complementoComprador=' . $this->compradorComplemento; //Atualizacao
+        $url .= '&bairroComprador=' . $this->compradorBairro;
+        $url .= '&complementoComprador=' . $this->compradorComplemento;
         $url .= '&cidadeComprador=' . $this->compradorCidade;
-        $url .= '&ufComprador=' . $uf;
+        $url .= '&ufComprador=' . $ufComprador;
         $url .= '&paisComprador=' . $this->compradorPais;
         $url .= '&cepComprador=' . $this->compradorCep;
+        $url .= '&cpfComprador=' . $this->compradorCpfCnpj;
         $url .= '&dddComprador=' . $this->compradorDddTelefone1;
         $url .= '&telefoneComprador=' . $this->compradorTelefone1;
-        $url .= '&dddCelularComprador=' . $this->compradorDddCelular; // Atualizacao
-        $url .= '&celularComprador=' . $this->compradorCelular; // Atualizacao 
-        $url .= '&dddComprador2=' . $this->compradorDddCelular; // Atualizacao
-        $url .= '&telefoneComprador2=' . $this->compradorCelular; // Atualizacao
-        $url .= '&cpfComprador=' . $this->compradorCpfCnpj;
+        $url .= '&dddCelularComprador=' . $this->compradorDddCelular;
+        $url .= '&celularComprador=' . $this->compradorCelular;
+        $url .= '&dddComprador2=' . $this->compradorDddCelular;
+        $url .= '&telefoneComprador2=' . $this->compradorCelular;
         $url .= '&emailComprador=' . $this->compradorEmail;
+        $url .= '&dataNascimentoComprador=' . $this->compradorDataNascimento;
+        $url .= '&ip=' . $this->compradorIp;
         $url .= '&nomeEntrega=' . $this->entregaNome;
+        $url .= '&cpfEntrega=' . $this->entregaCpfCnpj;
         $url .= '&ruaEntrega=' . $this->entregaRua;
         $url .= '&numeroEntrega=' . $this->entregaNumero;
         $url .= '&cidadeEntrega=' . $this->entregaCidade;
-        $url .= '&complementoEntrega=' . $this->entregaComplemento; // Atualizacao
-        $url .= '&bairroEntrega=' . $this->entregaBairro; // Atualizacao
-        $url .= '&ufEntrega=' . $uf;
+        $url .= '&complementoEntrega=' . $this->entregaComplemento;
+        $url .= '&bairroEntrega=' . $this->entregaBairro;
+        $url .= '&ufEntrega=' . $ufEntrega;
         $url .= '&paisEntrega=' . $this->entregaPais;
         $url .= '&cepEntrega=' . $this->entregaCep;
         $url .= '&dddEntrega=' . $this->entregaDddTelefone1;
         $url .= '&telefoneEntrega=' . $this->entregaTelefone1;
-        $url .= '&dddCelularEntrega=' . $this->entregaDddCelular; // Atualizacao
-        $url .= '&celularEntrega=' . $this->entregaCelular; // Atualizacao
-        $url .= '&dddEntrega2=' . $this->entregaDddCelular; // Atualizacao
-        $url .= '&telefoneEntrega2=' . $this->entregaCelular; // Atualizacao
-        $url .= '&ip=' . $this->compradorIp;                // Atualizacao
+        $url .= '&dddCelularEntrega=' . $this->entregaDddCelular;
+        $url .= '&celularEntrega=' . $this->entregaCelular;
+        $url .= '&dddEntrega2=' . $this->entregaDddCelular;
+        $url .= '&telefoneEntrega2=' . $this->entregaCelular;
+        $url .= '&dataNascimentoEntrega=' . $this->entregaDataNascimento;
         $url .= '&codigoPedido=' . $this->codigoPedido;
         $url .= '&quantidadeItensDistintos=' . $this->itensDistintos;
         $url .= '&quantidadeTotalItens=' . $this->itensTotal;
         $url .= '&valorTotalCompra=' . ($this->valorTotalCompra * 100);
         $url .= '&dataCompra=' . $this->dataCompra;
+        $url .= '&formaEntrega=' . $this->formaEntrega;
         $url .= '&metodoPagamentos=' . $this->metodoPagamento;
         $url .= '&numeroParcelasPagamentos=' . $this->numeroParcelas;
         $url .= '&valorPagamentos=' . ($this->valorPedido * 100);
 
 
-        $url = retira_acentos($url);
+        $url = $this->removeAcentos($url);
 
 
         /* $datetime = new Datetime();
@@ -288,5 +251,83 @@ class Fcontrol_Antifraude_Model_Api extends Fcontrol_Antifraude_Model_Api_Abstra
             "valorPedido");
 
         return $list;
+    }
+
+    private function getStateSigla($estado)
+    {
+        $uf = $this->removeAcentos($estado);
+        $uf = strtolower($uf);
+        $uf = str_replace(' ', '_', $uf);
+
+        $_state_sigla = array(
+            'acre' => 'AC',
+            'alagoas' => 'AL',
+            'amapa' => 'AP',
+            'amazonas' => 'AM',
+            'bahia' => 'BA',
+            'ceara' => 'CE',
+            'distrito_federal' => 'DF',
+            'espirito_santo' => 'ES',
+            'goias' => 'GO',
+            'maranhao' => 'MA',
+            'mato_grosso' => 'MT',
+            'mato_grosso_do_sul' => 'MS',
+            'minas_gerais' => 'MG',
+            'para' => 'PA',
+            'paraiba' => 'PB',
+            'parana' => 'PR',
+            'pernambuco' => 'PE',
+            'piaui' => 'PI',
+            'rio_de_janeiro' => 'RJ',
+            'rio_grande_do_norte' => 'RN',
+            'rio_grande_do_sul' => 'RS',
+            'rondonia' => 'RO',
+            'roraima' => 'RR',
+            'santa_catarina' => 'SC',
+            'sao_paulo' => 'SP',
+            'sergipe' => 'SE',
+            'tocatins' => 'TO'
+        );
+
+        if (isset($_state_sigla[$uf])) {
+            return $_state_sigla[$uf];
+        } else {
+            return strtoupper($uf);
+        }
+    }
+
+    /***
+     * Função para remover acentos de uma string
+     */
+    private function removeAcentos($string, $slug = false)
+    {
+        $string = strtolower($string);
+        // Código ASCII das vogais
+        $ascii['a'] = range(224, 230);
+        $ascii['e'] = range(232, 235);
+        $ascii['i'] = range(236, 239);
+        $ascii['o'] = array_merge(range(242, 246), array(240, 248));
+        $ascii['u'] = range(249, 252);
+        // Código ASCII dos outros caracteres
+        $ascii['b'] = array(223);
+        $ascii['c'] = array(231);
+        $ascii['d'] = array(208);
+        $ascii['n'] = array(241);
+        $ascii['y'] = array(253, 255);
+        foreach ($ascii as $key => $item) {
+            $acentos = '';
+            foreach ($item AS $codigo) $acentos .= chr($codigo);
+            $troca[$key] = '/[' . $acentos . ']/i';
+        }
+        $string = preg_replace(array_values($troca), array_keys($troca), $string);
+        // Slug?
+        if ($slug) {
+            // Troca tudo que não for letra ou número por um caractere ($slug)
+            $string = preg_replace('/[^a-z0-9]/i', $slug, $string);
+            // Tira os caracteres ($slug) repetidos
+            $string = preg_replace('/' . $slug . '{2,}/i', $slug, $string);
+            $string = trim($string, $slug);
+        }
+        return $string;
     }
 }

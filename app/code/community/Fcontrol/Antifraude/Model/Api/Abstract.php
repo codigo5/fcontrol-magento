@@ -1156,11 +1156,11 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
             $this->setData('fcontrol_sandbox', Mage::getStoreConfig('sales/fcontrol/sandbox', $this->getStoreId()));
         }
 
-        if($frame) {
+        if ($frame) {
             if (!$this->getData('fcontrol_sandbox')) {
                 $codInteg = "91";
             }
-        } else if($fila) {
+        } else if ($fila) {
             if (!$this->getData('fcontrol_sandbox')) {
                 $codInteg = "92";
             }
@@ -1277,48 +1277,6 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
      */
     private function chargeFilaValues($order)
     {
-        /* @required */
-        $this->compradorTelefone1 = str_replace("-", "", $order->getBillingAddress()->getData('telephone'));
-
-        $this->compradorCelular = str_replace("-", "", $order->getBillingAddress()->getData('fax'));
-
-
-        if ($order->getCustomerGender()) {
-            $this->compradorSexo = (intval($order->getCustomerGender()) === 1) ? 'M' : 'F';
-        }
-
-        if ($order->getCustomerDob()) {
-            $dob = new DateTime($order->getCustomerDob());
-
-            $this->compradorDataNascimento = $dob->format('Y-m-d');
-        }
-
-        $customer = Mage::getModel('customer/address')->load($order->getCustomerId());
-        if ($customer->getCreatedAt()) {
-            $dcad = new DateTime($customer->getCreatedAt());
-
-            $this->compradorDataCadastro = $dcad->format('Y-m-d');
-        }
-
-
-        if ($order->getCustomerGender()) {
-            $this->entregaSexo = (intval($order->getCustomerGender()) === 1) ? 'M' : 'F';
-        }
-
-        if ($order->getCustomerDob()) {
-            $dob = new DateTime($order->getCustomerDob());
-
-            $this->entregaDataNascimento = $dob->format('Y-m-d');;
-        }
-
-        if ($order->getCreatedAt()) {
-            $dcreat= new DateTime($order->getCreatedAt());
-
-            $this->entregaDataCadastro = $dcreat->format('Y-m-d');;
-        }
-
-        $this->entregaEmail = (is_null($order->getShippingAddress()->getEmail())) ? $order->getCustomerEmail() : $order->getShippingAddress()->getEmail();
-
         $adapter_payment = Mage::getModel('fcontrol/adapter_payment');
 
         $adapter_payment->filter($order->getPayment(), $this);
@@ -1355,10 +1313,49 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
      */
     private function chargeOrderDataValues($order)
     {
+        if ($order->getCustomerGender()) {
+            $this->compradorSexo = (intval($order->getCustomerGender()) === 1) ? 'M' : 'F';
+        }
+
+        if ($order->getCustomerDob()) {
+            $dob = new DateTime($order->getCustomerDob());
+
+            $this->compradorDataNascimento = $dob->format('Y-m-d');
+        }
+
+        $customer = Mage::getModel('customer/address')->load($order->getCustomerId());
+        if ($customer->getCreatedAt()) {
+            $dcad = new DateTime($customer->getCreatedAt());
+
+            $this->compradorDataCadastro = $dcad->format('Y-m-d');
+        }
+
+        $payment = $order->getPayment();
+        $this->metodoPagamento = $payment->getMethod();
+
+
+        if ($order->getCustomerGender()) {
+            $this->entregaSexo = (intval($order->getCustomerGender()) === 1) ? 'M' : 'F';
+        }
+
+        if ($order->getCustomerDob()) {
+            $dob = new DateTime($order->getCustomerDob());
+
+            $this->entregaDataNascimento = $dob->format('Y-m-d');;
+        }
+
+        if ($order->getCreatedAt()) {
+            $dcreat = new DateTime($order->getCreatedAt());
+
+            $this->entregaDataCadastro = $dcreat->format('Y-m-d');;
+        }
+
+        $this->entregaEmail = (is_null($order->getShippingAddress()->getEmail())) ? $order->getCustomerEmail() : $order->getShippingAddress()->getEmail();
+
         /* @required */
         $this->compradorNome = utf8_decode($order->getBillingAddress()->getFirstname() . ' ' . $order->getBillingAddress()->getLastname());
 
-        $this->compradorCodigo = (string) $order->getCustomerId();
+        $this->compradorCodigo = (string)$order->getCustomerId();
 
         /* @required */
         $this->compradorCep = preg_replace("/^(\d{5})(\d{3})$/", "\\1-\\2", $order->getBillingAddress()->getPostcode());
@@ -1382,7 +1379,8 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
         $telBilling = preg_replace("/[^0-9]/", "", $order->getBillingAddress()->getTelephone());
 
         $telBilling = trim($telBilling);
-
+        $telephoneBilling = '';
+        $dddTelephoneBilling = '';
         switch (strlen($telBilling)) {
             case 8:
                 $telephoneBilling = $telBilling;
