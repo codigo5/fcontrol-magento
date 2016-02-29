@@ -144,7 +144,7 @@ class Fcontrol_Antifraude_Model_Api extends Fcontrol_Antifraude_Model_Api_Abstra
 
          Mage::log($datetime->format("h:m:s").'-'.$data."\n--------------------------------------------------", null, $name.'-fcontrol.log', true);
         */
-        echo '<iframe height="115" frameborder="0" width="300" src="' . $url . '"></iframe>' . $this->checkRequiredFields();
+        echo '<div style="float:left;"><iframe height="85" frameborder="0" width="295" src="' . $url . '"></iframe></div>' . $this->checkRequiredFields();
     }
 
     /* Proposta */
@@ -243,7 +243,7 @@ class Fcontrol_Antifraude_Model_Api extends Fcontrol_Antifraude_Model_Api_Abstra
             if ($qtdInvalids == 1) {
                 $textNotify = ' campo obrigatório não preenchido';
             }
-            $invalids_fields = '<b>Atenção! ' . $qtdInvalids . $textNotify . ' . (' . $invalids_fields . ')</b>';
+            $invalids_fields = '<div style="float:left; margin-left: 8px;"><b>Atenção! ' . $qtdInvalids . $textNotify . ' . (' . $invalids_fields . ')</b></div>';
         }
         return $invalids_fields;
     }
