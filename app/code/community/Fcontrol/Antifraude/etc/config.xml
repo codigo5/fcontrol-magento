@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Fcontrol_Antifraude>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
         </Fcontrol_Antifraude>
     </modules>
     <global>
