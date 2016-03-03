@@ -899,7 +899,7 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
         $client = new Zend_Soap_Client($this->_wsdl,
             array(
                 'soap_version' => SOAP_1_1,
-                'encoding' => 'UTF-8'
+                'encoding' => 'ISO-8859-1'
             )
         );
         $data = array(
@@ -1000,12 +1000,13 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
         );
 
         $result = $client->enfileirarTransacao9($data);
+        $resultMessage = utf8_encode($result->enfileirarTransacao9Result->Mensagem);
 
         if (!$result->enfileirarTransacao9Result->Sucesso) {
-            throw new Exception($result->enfileirarTransacao9Result->Mensagem);
+            throw new Exception($resultMessage);
         }
 
-        return $result->enfileirarTransacao9Result->Mensagem;
+        return $resultMessage;
     }
 
     /**
