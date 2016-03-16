@@ -43,20 +43,19 @@ class Fcontrol_Antifraude_Model_Api extends Fcontrol_Antifraude_Model_Api_Abstra
         $ufComprador = $this->getStateSigla($this->compradorEstado);
         $ufEntrega = $this->getStateSigla($this->entregaEstado);
 
-
         $url_base .= '?login=' . $this->getUser();
         $url_base .= '&senha=' . $this->getPassword();
 
         $url = "";
-        $url .= '&nomeComprador=' . urlencode($this->compradorNome);
-        $url .= '&sexoComprador=' . urlencode($this->compradorSexo);
-        $url .= '&ruaComprador=' . urlencode($this->compradorRua);
-        $url .= '&numeroComprador=' . urlencode($this->compradorNumero);
-        $url .= '&bairroComprador=' . urlencode($this->compradorBairro);
-        $url .= '&complementoComprador=' . urlencode($this->compradorComplemento);
-        $url .= '&cidadeComprador=' . urlencode($this->compradorCidade);
+        $url .= '&nomeComprador=' . $this->compradorNome;
+        $url .= '&sexoComprador=' . $this->compradorSexo;
+        $url .= '&ruaComprador=' . $this->compradorRua;
+        $url .= '&numeroComprador=' . $this->compradorNumero;
+        $url .= '&bairroComprador=' . $this->compradorBairro;
+        $url .= '&complementoComprador=' . $this->compradorComplemento;
+        $url .= '&cidadeComprador=' . $this->compradorCidade;
         $url .= '&ufComprador=' . $ufComprador;
-        $url .= '&paisComprador=' . urlencode($this->compradorPais);
+        $url .= '&paisComprador=' . $this->compradorPais;
         $url .= '&cepComprador=' . $this->compradorCep;
         $url .= '&cpfComprador=' . $this->compradorCpfCnpj;
         $url .= '&dddComprador=' . $this->compradorDddTelefone1;
@@ -65,18 +64,18 @@ class Fcontrol_Antifraude_Model_Api extends Fcontrol_Antifraude_Model_Api_Abstra
         $url .= '&celularComprador=' . $this->compradorCelular;
         $url .= '&dddComprador2=' . $this->compradorDddCelular;
         $url .= '&telefoneComprador2=' . $this->compradorCelular;
-        $url .= '&emailComprador=' . urlencode($this->compradorEmail);
+        $url .= '&emailComprador=' . $this->compradorEmail;
         $url .= '&dataNascimentoComprador=' . $this->compradorDataNascimento;
         $url .= '&ip=' . $this->compradorIp;
-        $url .= '&nomeEntrega=' . urlencode($this->entregaNome);
+        $url .= '&nomeEntrega=' . $this->entregaNome;
         $url .= '&cpfEntrega=' . $this->entregaCpfCnpj;
-        $url .= '&ruaEntrega=' . urlencode($this->entregaRua);
-        $url .= '&numeroEntrega=' . urlencode($this->entregaNumero);
-        $url .= '&cidadeEntrega=' . urlencode($this->entregaCidade);
-        $url .= '&complementoEntrega=' . urlencode($this->entregaComplemento);
-        $url .= '&bairroEntrega=' . urlencode($this->entregaBairro);
+        $url .= '&ruaEntrega=' . $this->entregaRua;
+        $url .= '&numeroEntrega=' . $this->entregaNumero;
+        $url .= '&cidadeEntrega=' . $this->entregaCidade;
+        $url .= '&complementoEntrega=' . $this->entregaComplemento;
+        $url .= '&bairroEntrega=' . $this->entregaBairro;
         $url .= '&ufEntrega=' . $ufEntrega;
-        $url .= '&paisEntrega=' . urlencode($this->entregaPais);
+        $url .= '&paisEntrega=' . $this->entregaPais;
         $url .= '&cepEntrega=' . $this->entregaCep;
         $url .= '&dddEntrega=' . $this->entregaDddTelefone1;
         $url .= '&telefoneEntrega=' . $this->entregaTelefone1;
@@ -90,11 +89,18 @@ class Fcontrol_Antifraude_Model_Api extends Fcontrol_Antifraude_Model_Api_Abstra
         $url .= '&quantidadeTotalItens=' . $this->itensTotal;
         $url .= '&valorTotalCompra=' . ($this->valorTotalCompra * 100);
         $url .= '&dataCompra=' . $this->dataCompra;
-        $url .= '&formaEntrega=' . urlencode($this->formaEntrega);
-        $url .= '&metodoPagamentos=' . urlencode($this->metodoPagamento);
+        $url .= '&formaEntrega=' . $this->formaEntrega;
+        $url .= '&metodoPagamentos=' . $this->metodoPagamento;
         $url .= '&numeroParcelasPagamentos=' . $this->numeroParcelas;
         $url .= '&valorPagamentos=' . ($this->valorPedido * 100);
-        
+        $url .= '&codigosProdutos=' . implode(";", $this->produtoCodigo);
+        $url .= '&descricoesProdutos=' . implode(";", $this->produtoDescricao);
+        $url .= '&quantidadesProdutos=' . implode(";", $this->produtoQtde);
+        $url .= '&valoresProdutos=' . implode(";", $this->produtoValor);
+        $url .= '&categoriasProdutos' . implode(";", $this->produtoCategoria);
+
+        $url = $this->removeAcentos($url);
+
         $url = $url_base . $url;
 
         echo '<div style="float:left;"><iframe height="85" frameborder="0" width="295" src="' . $url . '"></iframe></div>' . $this->checkRequiredFields();

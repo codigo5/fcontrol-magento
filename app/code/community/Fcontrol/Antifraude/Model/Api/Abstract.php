@@ -1267,6 +1267,25 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
      */
     private function chargeFrameValues($order)
     {
+        $items_index = 0;
+        if ($order->getAllItems()) {
+            foreach ($order->getAllItems() as $items) {
+                if (is_null($items->getParentItemId())) {
+                    $this->produtoCodigo[$items_index] = utf8_decode($items->getProductId());
+                    $this->produtoDescricao[$items_index] = utf8_decode(str_replace("&", "", $items->getName()));
+                    $this->produtoQtde[$items_index] = number_format($items->getQtyOrdered(), 0, "", "");
+                    $this->produtoValor[$items_index] = number_format($items->getPrice(), 2, ".", "") * 100;
+
+                    $item_data = Mage::getModel('catalog/product')->load($items->getProductId());
+
+                    $this->produtoCategoria[$items_index] = implode(";", $item_data->getCategoryIds());
+                    $this->produtoListaCasamento[$items_index] = 'false';
+                    $this->produtoParaPresente[$items_index] = 'false';
+                    $items_index++;
+                }
+            }
+        }
+
         // call chargeOrderDataValues
         $this->chargeOrderDataValues($order);
     }
@@ -1533,9 +1552,9 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
 
         $this->codigoPedido = $order->getIncrementId();
 
-        $created_at = new DateTime($order->getPayment()->getCreatedAt());
+        $created_at = $order->getCreatedAtStoreDate();
         /* @required; @format: ISO 8601 */
-        $this->dataCompra = $created_at->format('Y-m-d\TH:i:s');
+        $this->dataCompra = $created_at->toString('YYYY-MM-ddTHH:mm:ss');
 
         $this->itensTotal = 0;
         $this->itensDistintos = 0;
