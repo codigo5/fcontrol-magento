@@ -94,22 +94,9 @@ class Fcontrol_Antifraude_Model_Api extends Fcontrol_Antifraude_Model_Api_Abstra
         $url .= '&metodoPagamentos=' . urlencode($this->metodoPagamento);
         $url .= '&numeroParcelasPagamentos=' . $this->numeroParcelas;
         $url .= '&valorPagamentos=' . ($this->valorPedido * 100);
-
-
-        //$url = urlencode($url);
-
-
+        
         $url = $url_base . $url;
-        /* $datetime = new Datetime();
 
-         $datetime->setTimezone('America/Sao_Paulo');
-
-         $name = $datetime->format("Y-m-d");
-
-         $data = var_export(parse_url($url), true);
-
-         Mage::log($datetime->format("h:m:s").'-'.$data."\n--------------------------------------------------", null, $name.'-fcontrol.log', true);
-        */
         echo '<div style="float:left;"><iframe height="85" frameborder="0" width="295" src="' . $url . '"></iframe></div>' . $this->checkRequiredFields();
     }
 
