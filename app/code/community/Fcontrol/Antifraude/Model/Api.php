@@ -38,23 +38,25 @@ class Fcontrol_Antifraude_Model_Api extends Fcontrol_Antifraude_Model_Api_Abstra
 
     public function analisaFrame()
     {
-        $url = $this->_urlFrame . '/validatorframe.aspx';
+        $url_base = $this->_urlFrame . '/validatorframe.aspx';
 
         $ufComprador = $this->getStateSigla($this->compradorEstado);
         $ufEntrega = $this->getStateSigla($this->entregaEstado);
 
 
-        $url .= '?login=' . $this->getUser();
-        $url .= '&senha=' . $this->getPassword();
-        $url .= '&nomeComprador=' . $this->compradorNome;
-        $url .= '&sexoComprador=' . $this->compradorSexo;
-        $url .= '&ruaComprador=' . $this->compradorRua;
-        $url .= '&numeroComprador=' . $this->compradorNumero;
-        $url .= '&bairroComprador=' . $this->compradorBairro;
-        $url .= '&complementoComprador=' . $this->compradorComplemento;
-        $url .= '&cidadeComprador=' . $this->compradorCidade;
+        $url_base .= '?login=' . $this->getUser();
+        $url_base .= '&senha=' . $this->getPassword();
+
+        $url = "";
+        $url .= '&nomeComprador=' . urlencode($this->compradorNome);
+        $url .= '&sexoComprador=' . urlencode($this->compradorSexo);
+        $url .= '&ruaComprador=' . urlencode($this->compradorRua);
+        $url .= '&numeroComprador=' . urlencode($this->compradorNumero);
+        $url .= '&bairroComprador=' . urlencode($this->compradorBairro);
+        $url .= '&complementoComprador=' . urlencode($this->compradorComplemento);
+        $url .= '&cidadeComprador=' . urlencode($this->compradorCidade);
         $url .= '&ufComprador=' . $ufComprador;
-        $url .= '&paisComprador=' . $this->compradorPais;
+        $url .= '&paisComprador=' . urlencode($this->compradorPais);
         $url .= '&cepComprador=' . $this->compradorCep;
         $url .= '&cpfComprador=' . $this->compradorCpfCnpj;
         $url .= '&dddComprador=' . $this->compradorDddTelefone1;
@@ -63,18 +65,18 @@ class Fcontrol_Antifraude_Model_Api extends Fcontrol_Antifraude_Model_Api_Abstra
         $url .= '&celularComprador=' . $this->compradorCelular;
         $url .= '&dddComprador2=' . $this->compradorDddCelular;
         $url .= '&telefoneComprador2=' . $this->compradorCelular;
-        $url .= '&emailComprador=' . $this->compradorEmail;
+        $url .= '&emailComprador=' . urlencode($this->compradorEmail);
         $url .= '&dataNascimentoComprador=' . $this->compradorDataNascimento;
         $url .= '&ip=' . $this->compradorIp;
-        $url .= '&nomeEntrega=' . $this->entregaNome;
+        $url .= '&nomeEntrega=' . urlencode($this->entregaNome);
         $url .= '&cpfEntrega=' . $this->entregaCpfCnpj;
-        $url .= '&ruaEntrega=' . $this->entregaRua;
-        $url .= '&numeroEntrega=' . $this->entregaNumero;
-        $url .= '&cidadeEntrega=' . $this->entregaCidade;
-        $url .= '&complementoEntrega=' . $this->entregaComplemento;
-        $url .= '&bairroEntrega=' . $this->entregaBairro;
+        $url .= '&ruaEntrega=' . urlencode($this->entregaRua);
+        $url .= '&numeroEntrega=' . urlencode($this->entregaNumero);
+        $url .= '&cidadeEntrega=' . urlencode($this->entregaCidade);
+        $url .= '&complementoEntrega=' . urlencode($this->entregaComplemento);
+        $url .= '&bairroEntrega=' . urlencode($this->entregaBairro);
         $url .= '&ufEntrega=' . $ufEntrega;
-        $url .= '&paisEntrega=' . $this->entregaPais;
+        $url .= '&paisEntrega=' . urlencode($this->entregaPais);
         $url .= '&cepEntrega=' . $this->entregaCep;
         $url .= '&dddEntrega=' . $this->entregaDddTelefone1;
         $url .= '&telefoneEntrega=' . $this->entregaTelefone1;
@@ -88,15 +90,16 @@ class Fcontrol_Antifraude_Model_Api extends Fcontrol_Antifraude_Model_Api_Abstra
         $url .= '&quantidadeTotalItens=' . $this->itensTotal;
         $url .= '&valorTotalCompra=' . ($this->valorTotalCompra * 100);
         $url .= '&dataCompra=' . $this->dataCompra;
-        $url .= '&formaEntrega=' . $this->formaEntrega;
-        $url .= '&metodoPagamentos=' . $this->metodoPagamento;
+        $url .= '&formaEntrega=' . urlencode($this->formaEntrega);
+        $url .= '&metodoPagamentos=' . urlencode($this->metodoPagamento);
         $url .= '&numeroParcelasPagamentos=' . $this->numeroParcelas;
         $url .= '&valorPagamentos=' . ($this->valorPedido * 100);
 
 
-        $url = $this->removeAcentos($url);
+        //$url = urlencode($url);
 
 
+        $url = $url_base . $url;
         /* $datetime = new Datetime();
 
          $datetime->setTimezone('America/Sao_Paulo');
