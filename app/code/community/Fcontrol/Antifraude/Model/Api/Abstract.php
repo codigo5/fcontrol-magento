@@ -1538,7 +1538,7 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
             $this->compradorIp = $order->getRemoteIp();
         }
 
-        $this->entregaCpfCnpj = preg_replace("/[^0-9]/", "", $order->getCustomerTaxvat());
+        $this->entregaCpfCnpj = preg_replace("/[^0-9]/", "", $order->getShippingAddress()->getVatId());
 
         $this->entregaEmail = $order->getShippingAddress()->getEmail();
 
