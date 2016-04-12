@@ -297,7 +297,6 @@ class Fcontrol_Antifraude_Model_Api extends Fcontrol_Antifraude_Model_Api_Abstra
      */
     private function removeAcentos($string, $slug = false)
     {
-        $string = strtolower($string);
         // Código ASCII das vogais
         $ascii['a'] = range(224, 230);
         $ascii['e'] = range(232, 235);
