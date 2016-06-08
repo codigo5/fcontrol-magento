@@ -73,75 +73,28 @@ class Fcontrol_Antifraude_Model_Adapter_Payment extends Varien_Object
     {
         if ($api && in_array($payment->getMethod(), self::$_service)) {
 
-            switch ($payment->getMethod()) {
-                case 'ccsave':
-
-                    if (intval(Mage::helper('fcontrol')->getConfig('type_service')) === Fcontrol_Antifraude_Model_Api::FRAME) {
-                        $api->metodoPagamento = 1;
-                    } else {
-                        $api->metodoPagamento = 'CartaoCredito';
-                    }
-
+            $api->valorPedido = number_format($payment->getAmountOrdered(), 2, ".", "");
+            $api->numeroParcelas = 1;
+            switch ($api->metodoPagamento) {
+                case '1': // Cartão de Crédito
+                case '2': // Cartão Visa
+                case '3': // Cartão MasterCard
+                case '4': // Cartão Diners
+                case '5': // Cartão American Express
+                case '6': // Cartão HiperCard
+                case '7': // Cartão Aura
+                case '46': // Cartão Elo
+                case '50': // Cartão Fidelidade
                     $api->valorPedido = number_format($payment->getAmountOrdered(), 2, ".", "");
-
                     $api->nomeBancoEmissor = $payment->getCcType();
-
                     $api->numeroCartao = $payment->getCcNumber();
-
                     $api->dataValidadeCartao = $payment->getCcExpMonth() . '/' . $payment->getCcExpYear();
-
                     $api->nomeTitularCartao = $payment->getCcOwner();
-
                     $api->quatroUltimosDigitosCartao = $payment->getCcLast4();
-                    break;
-                case 'checkmo':
-
-                    if (intval(Mage::helper('fcontrol')->getConfig('type_service')) === Fcontrol_Antifraude_Model_Api::FRAME) {
-                        $api->metodoPagamento = 15;
-                    } else {
-                        $api->metodoPagamento = 'Deposito';
-                    }
-
-                    $api->valorPedido = number_format($payment->getAmountOrdered(), 2, ".", "");
-                    break;
-                case 'pagamentodigital_geral':
-                case 'pagamentodigital_vista':
-                case 'pagamentodigital_prazo':
-                case 'dineromail_standard':
-
-                    if (intval(Mage::helper('fcontrol')->getConfig('type_service')) === Fcontrol_Antifraude_Model_Api::FRAME) {
-                        $api->metodoPagamento = 10;
-                    } else {
-                        $api->metodoPagamento = 'PagamentoEntrega';
-                    }
-
-                    $api->valorPedido = number_format($payment->getAmountOrdered(), 2, ".", "");
-                    break;
-                case 'free':
-                case 'purchaseorder':
-
-                    if (intval(Mage::helper('fcontrol')->getConfig('type_service')) === Fcontrol_Antifraude_Model_Api::FRAME) {
-                        $api->metodoPagamento = 18;
-                    } else {
-                        $api->metodoPagamento = 'ValePresente';
-                    }
-
-                    $api->valorPedido = number_format($payment->getAmountOrdered(), 2, ".", "");
-                    break;
-                default:
-
-                    if (intval(Mage::helper('fcontrol')->getConfig('type_service')) === Fcontrol_Antifraude_Model_Api::FRAME) {
-                        $api->metodoPagamento = 1;
-                    } else {
-                        $api->metodoPagamento = 'CartaoCredito';
-                    }
-
-                    $api->valorPedido = number_format($payment->getAmountOrdered(), 2, ".", "");
                     break;
             }
         }
 
-        $api->numeroParcelas = 1;
 
         return $api;
     }

@@ -440,7 +440,7 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
      *
      * @var Fcontrol_Antifraude_Model_Api
      */
-    public $metodoPagamento = 'CartaoCredito';
+    public $metodoPagamento;
 
     /**
      * Parameter $nomeBancoEmissor
@@ -1215,6 +1215,23 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
     }
 
     /**
+     *
+     */
+    public function getMetodoPagamentoFControlCode($mageMethod = null)
+    {
+        if(!is_null($mageMethod)) {
+            $integrationCodes = Mage::getStoreConfig('sales/fcontrol/integration_payment_code');
+            $unserialezedCodes = unserialize($integrationCodes);
+            foreach ($unserialezedCodes as $key => $obj) {
+                if($obj['payment_method'] == $mageMethod) {
+                    return $obj['integration_code'];
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
      * getTypeService
      *
      * @return mixed
@@ -1351,7 +1368,8 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
         }
 
         $payment = $order->getPayment();
-        $this->metodoPagamento = $payment->getMethod();
+        $paymentMethod = $payment->getMethod();
+        $this->metodoPagamento = $this->getMetodoPagamentoFControlCode($paymentMethod);
 
 
         if ($order->getCustomerGender()) {
@@ -1361,13 +1379,13 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
         if ($order->getCustomerDob()) {
             $dob = new DateTime($order->getCustomerDob());
 
-            $this->entregaDataNascimento = $dob->format('Y-m-d');;
+            $this->entregaDataNascimento = $dob->format('Y-m-d');
         }
 
         if ($order->getCreatedAt()) {
             $dcreat = new DateTime($order->getCreatedAt());
 
-            $this->entregaDataCadastro = $dcreat->format('Y-m-d');;
+            $this->entregaDataCadastro = $dcreat->format('Y-m-d');
         }
 
         $this->entregaEmail = (is_null($order->getShippingAddress()->getEmail())) ? $order->getCustomerEmail() : $order->getShippingAddress()->getEmail();
@@ -1546,9 +1564,6 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
         $adapter_payment = Mage::getModel('fcontrol/adapter_payment');
 
         $adapter_payment->filter($order->getPayment(), $this);
-
-        /* @required */
-        $this->numeroParcelas = 1;
 
         $this->codigoPedido = $order->getIncrementId();
 
