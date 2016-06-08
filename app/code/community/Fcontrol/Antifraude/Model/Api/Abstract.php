@@ -885,6 +885,132 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
     }
 
     /**
+     * function enfileirarTransacao14
+     * https://secure.fcontrol.com.br/Manager/ManuaisFControl/integracao/FilaAnalise/IntFilaNormal/TabelaParametrosEnfileirar14SOAP.aspx
+     *
+     * @return mixed
+     * @throws Exception
+     */
+    public function enfileirarTransacao14()
+    {
+        $this->codigoIntegrador = $this->getCodigoIntegrador(false, true);
+        $this->pedidoTeste = $this->getPedidoTeste();
+
+        $this->_wsdl = $this->getEnvironmentUrl();
+        $client = new Zend_Soap_Client($this->_wsdl,
+            array(
+                'soap_version' => SOAP_1_1,
+                'encoding' => 'ISO-8859-1'
+            )
+        );
+        $data = array(
+            'pedido' => array(
+                'DadosUsuario' => array(
+                    'Login' => $this->usuario,
+                    'Senha' => $this->senha
+                ),
+                'CodigoPedido' => $this->codigoPedido,
+                'DataCompra' => (string)$this->dataCompra,
+                'DataEntrega' => '2010-05-10T15:00:00',
+                'QuantidadeItensDistintos' => (string)$this->itensDistintos,
+                'QuantidadeTotalItens' => (string)$this->itensTotal,
+                'ValorTotalCompra' => (string)$this->format($this->valorTotalCompra),
+                'ValorTotalFrete' => (string)$this->format($this->valorTotalFrete),
+                'PedidoDeTeste' => $this->pedidoTeste,
+                'PrazoEntregaDias' => (string)$this->prazoEntrega,
+                'FormaEntrega' => (string)$this->formaEntrega,
+                'Observacao' => (string)$this->observacao,
+                'CanalVenda' => (string)$this->canalVenda,
+                'StatusFinalizador' => 'Pendente',
+                'CodigoIntegrador' => $this->codigoIntegrador,
+                'DadosComprador' => array(
+                    'NomeComprador' => $this->compradorNome,
+                    'Codigo' => $this->compradorCodigo,
+                    'CpfCnpj' => $this->compradorCpfCnpj,
+                    'Email' => $this->compradorEmail,
+                    'DataCadastro' => $this->compradorDataCadastro,
+                    'Endereco' => array(
+                        'Pais' => $this->compradorPais,
+                        'Cep' => $this->compradorCep,
+                        'Rua' => $this->xmlentities($this->compradorRua),
+                        'Numero' => $this->compradorNumero,
+                        'Complemento' => $this->xmlentities($this->compradorComplemento),
+                        'Bairro' => $this->xmlentities($this->compradorBairro),
+                        'Cidade' => $this->xmlentities($this->compradorCidade),
+                        'Estado' => $this->compradorEstado
+                    ),
+                    'DataNascimento' => (string)$this->compradorDataNascimento,
+                    'IP' => $this->compradorIp,
+                    'Senha' => $this->compradorSenha,
+                    'DddTelefone' => $this->compradorDddTelefone1,
+                    'NumeroTelefone' => $this->compradorTelefone1,
+                    'DddTelefone2' => $this->compradorDddTelefone2,
+                    'NumeroTelefone2' => $this->compradorTelefone2,
+                    'DddCelular' => $this->compradorDddCelular,
+                    'NumeroCelular' => $this->compradorCelular
+                ),
+                'DadosEntrega' => array(
+                    'NomeEntrega' => $this->entregaNome,
+                    'DataCadastro' => $this->entregaDataCadastro,
+                    'Endereco' => array(
+                        'Pais' => $this->entregaPais,
+                        'Cep' => $this->entregaCep,
+                        'Rua' => $this->xmlentities($this->entregaRua),
+                        'Numero' => $this->entregaNumero,
+                        'Complemento' => $this->xmlentities($this->entregaComplemento),
+                        'Bairro' => $this->xmlentities($this->entregaBairro),
+                        'Cidade' => $this->xmlentities($this->entregaCidade),
+                        'Estado' => $this->entregaEstado
+                    ),
+                    'DataNascimento' => (string)$this->entregaDataNascimento,
+                    'DddTelefone' => $this->entregaDddTelefone1,
+                    'NumeroTelefone' => $this->entregaTelefone1,
+                    'DddTelefone2' => $this->entregaDddTelefone2,
+                    'NumeroTelefone2' => $this->entregaTelefone2,
+                    'DddCelular' => $this->entregaDddCelular,
+                    'NumeroCelular' => $this->entregaCelular
+                ),
+                'Pagamentos' => array(
+                    'WsPagamento2' => array(
+                        'MetodoPagamento' => $this->metodoPagamento,
+                        'Valor' => (string)$this->format($this->valorPedido),
+                        'NumeroParcelas' => (string)$this->numeroParcelas
+                    )
+                )
+            )
+        );
+
+        $data['pedido']['Produtos'] = array();
+        for ($i = 0; $i < count($this->produtoCodigo); $i++) {
+            $data['pedido']['Produtos']['WsProduto3'] = array(
+                'Codigo' => $this->produtoCodigo[$i],
+                'Descricao' => $this->produtoDescricao[$i],
+                'Quantidade' => $this->produtoQtde[$i],
+                'ValorUnitario' => $this->format($this->produtoValor[$i]),
+                'Categoria' => $this->produtoCategoria[$i],
+                'ListaDeCasamento' => $this->produtoListaCasamento[$i],
+                'ParaPresente' => $this->produtoParaPresente[$i]
+            );
+        }
+
+        $data['pedido']['DadosExtra'] = array(
+            'Extra1' => $this->extra1,
+            'Extra2' => $this->extra2,
+            'Extra3' => $this->extra3,
+            'Extra4' => $this->extra4
+        );
+
+        $result = $client->enfileirarTransacao14($data);
+        $resultMessage = utf8_encode($result->enfileirarTransacao14Result->Mensagem);
+
+        if (!$result->enfileirarTransacao14Result->Sucesso) {
+            throw new Exception($resultMessage);
+        }
+
+        return $resultMessage;
+    }
+
+    /**
      * function enfileirarTransacao
      *
      * @return mixed
@@ -1219,11 +1345,11 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
      */
     public function getMetodoPagamentoFControlCode($mageMethod = null)
     {
-        if(!is_null($mageMethod)) {
+        if (!is_null($mageMethod)) {
             $integrationCodes = Mage::getStoreConfig('sales/fcontrol/integration_payment_code');
             $unserialezedCodes = unserialize($integrationCodes);
             foreach ($unserialezedCodes as $key => $obj) {
-                if($obj['payment_method'] == $mageMethod) {
+                if ($obj['payment_method'] == $mageMethod) {
                     return $obj['integration_code'];
                 }
             }
