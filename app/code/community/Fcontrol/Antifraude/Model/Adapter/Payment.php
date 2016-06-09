@@ -72,7 +72,6 @@ class Fcontrol_Antifraude_Model_Adapter_Payment extends Varien_Object
     public function filter($payment = null, Fcontrol_Antifraude_Model_Api_Abstract $api = null)
     {
         if ($api && in_array($payment->getMethod(), self::$_service)) {
-
             $api->valorPedido = number_format($payment->getAmountOrdered(), 2, ".", "");
             $api->numeroParcelas = 1;
             switch ($api->metodoPagamento) {
@@ -94,7 +93,6 @@ class Fcontrol_Antifraude_Model_Adapter_Payment extends Varien_Object
                     break;
             }
         }
-
 
         return $api;
     }

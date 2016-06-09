@@ -169,7 +169,7 @@ class Fcontrol_Antifraude_Model_Observer
             if ($analyse) {
                 return $api->analisarTransacao(); // not used still
             } else {
-                return $api->enfileirarTransacao();
+                return $api->enfileirarTransacao14();
             }
         } catch (Mage_Core_Exception $e) {
             Mage::helper("fcontrol")->saveLog("Exception - Fcontrol_Antifraude_Model_Observer->queueOrder(): " . $e->getMessage());
