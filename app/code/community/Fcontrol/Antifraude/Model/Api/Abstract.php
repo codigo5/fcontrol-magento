@@ -924,6 +924,7 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
                 'StatusFinalizador' => 'Pendente',
                 'CodigoIntegrador' => $this->codigoIntegrador,
                 'DadosComprador' => array(
+                    'OrigemCadastro' => 'Outro',
                     'NomeComprador' => $this->compradorNome,
                     'Codigo' => $this->compradorCodigo,
                     'CpfCnpj' => $this->compradorCpfCnpj,
@@ -970,9 +971,11 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
                     'DddCelular' => $this->entregaDddCelular,
                     'NumeroCelular' => $this->entregaCelular
                 ),
+                'IsTransacaoMarketPlace' => 'false',
+                'CodigoMotivo' => '',
                 'Pagamentos' => array(
                     'WsPagamento2' => array(
-                        'MetodoPagamento' => $this->metodoPagamento,
+                        'MetodoPagamento' => $this->getPaymentEnum($this->metodoPagamento),
                         'Valor' => (string)$this->format($this->valorPedido),
                         'NumeroParcelas' => (string)$this->numeroParcelas
                     )
@@ -1404,6 +1407,44 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
     }
 
     /**
+     * getPaymentEnum
+     *
+     * @param $paymentMethodCode
+     */
+    private function getPaymentEnum($paymentMethodCode)
+    {
+        $methodsList = array('1' => 'CartaoCredito',
+            '2' => 'CartaoVisa',
+            '3' => 'CartaoMasterCard',
+            '4' => 'CartaoDiners',
+            '5' => 'CartaoAmericanExpress',
+            '6' => 'CartaoHiperCard',
+            '7' => 'CartaoAura',
+            '10' => 'PagamentoEntrega',
+            '11' => 'DebitoTransferenciaEletronica',
+            '12' => 'BoletoBancario',
+            '13' => 'Financiamento',
+            '14' => 'Cheque',
+            '15' => 'Deposito',
+            '18' => 'ValePresente',
+            '21' => 'OiPaggo',
+            '25' => 'CartaoSoroCred',
+            '27' => 'BoletoAPrazo',
+            '34' => 'TransferenciaEletronicaBancoBrasil',
+            '35' => 'TransferenciaEletronicaBradesco',
+            '36' => 'TransferenciaEletronicaItau',
+            '37' => 'DebitoContaItau',
+            '46' => 'CartaoELO',
+            '50' => 'CartaoFidelidade',
+            '55' => 'Cielo',
+            '56' => 'PayPal',
+            '57' => 'Cupom'
+        );
+
+        return $methodsList[$paymentMethodCode];
+    }
+
+    /**
      * chargeFrameValues
      *
      * @param $order
@@ -1420,8 +1461,14 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
                     $this->produtoValor[$items_index] = number_format($items->getPrice(), 2, ".", "") * 100;
 
                     $item_data = Mage::getModel('catalog/product')->load($items->getProductId());
-
-                    $this->produtoCategoria[$items_index] = implode(";", $item_data->getCategoryIds());
+                    $categoryIds = $item_data->getCategoryIds();
+                    if (count($categoryIds)) {
+                        $catId = $categoryIds[0];
+                        $categoryProduct = Mage::getModel('catalog/category')->load($catId);
+                        $this->produtoCategoria[$items_index] = $categoryProduct->getName();
+                    } else {
+                        $this->produtoCategoria[$items_index] = "PRODUTO";
+                    }
                     $this->produtoListaCasamento[$items_index] = 'false';
                     $this->produtoParaPresente[$items_index] = 'false';
                     $items_index++;
@@ -1456,8 +1503,14 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
                     $this->produtoValor[$items_index] = number_format($items->getPrice(), 2, ".", "");
 
                     $item_data = Mage::getModel('catalog/product')->load($items->getProductId());
-
-                    $this->produtoCategoria[$items_index] = implode(";", $item_data->getCategoryIds());
+                    $categoryIds = $item_data->getCategoryIds();
+                    if (count($categoryIds)) {
+                        $catId = $categoryIds[0];
+                        $categoryProduct = Mage::getModel('catalog/category')->load($catId);
+                        $this->produtoCategoria[$items_index] = $categoryProduct->getName();
+                    } else {
+                        $this->produtoCategoria[$items_index] = "PRODUTO";
+                    }
                     $this->produtoListaCasamento[$items_index] = 'false';
                     $this->produtoParaPresente[$items_index] = 'false';
                     $items_index++;
@@ -1664,6 +1717,7 @@ abstract class Fcontrol_Antifraude_Model_Api_Abstract extends Varien_Object
         $this->entregaComplemento = utf8_decode($order->getShippingAddress()->getStreet3());
 
         $this->formaEntrega = utf8_decode($order->getShippingDescription());
+        $this->formaEntrega = str_replace("-", " ", $this->formaEntrega);
 
         $this->canalVenda = Mage::app()->getStore()->getName();
 

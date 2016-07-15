@@ -87,9 +87,10 @@ class Fcontrol_Antifraude_Model_Api extends Fcontrol_Antifraude_Model_Api_Abstra
         $url .= '&codigoPedido=' . $this->codigoPedido;
         $url .= '&quantidadeItensDistintos=' . $this->itensDistintos;
         $url .= '&quantidadeTotalItens=' . $this->itensTotal;
-        $url .= '&valorTotalCompra=' . ($this->valorTotalCompra * 100);
+        $url .= '&valorTotalCompra=' . ($this->valorPedido * 100);
         $url .= '&dataCompra=' . $this->dataCompra;
         $url .= '&formaEntrega=' . $this->formaEntrega;
+        $url .= '&valorTotalFrete=' . ($this->valorTotalFrete * 100);
         $url .= '&metodoPagamentos=' . $this->metodoPagamento;
         $url .= '&numeroParcelasPagamentos=' . $this->numeroParcelas;
         $url .= '&valorPagamentos=' . ($this->valorPedido * 100);
