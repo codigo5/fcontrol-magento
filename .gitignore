@@ -5,3 +5,6 @@
 !app/design/adminhtml/default/default/template/buscape/*
 !app/etc/modules/Buscape_Fcontrol.xml
 !lib/nusoap/*
+!composer.json
+!composer.lock
+!modman

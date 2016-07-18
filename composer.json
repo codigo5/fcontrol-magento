@@ -1,0 +1,6 @@
+{
+  "name": "payu-br/fcontrol-magento",
+  "type": "magento-module",
+  "version": "0.2.0",
+  "description": "Módulo do Magento Fcontrol"
+}

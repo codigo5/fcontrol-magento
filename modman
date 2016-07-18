@@ -1,0 +1,4 @@
+app/code/community/Buscape/Fcontrol app/code/community/Buscape/Fcontrol
+app/design/adminhtml/default/default/template/buscape/fcontrol app/design/adminhtml/default/default/template/buscape/fcontrol
+app/etc/modules/*.xml app/etc/modules/
+lib/nusoap lib/nusoap
