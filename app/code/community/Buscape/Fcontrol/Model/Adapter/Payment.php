@@ -55,11 +55,13 @@ class Buscape_Fcontrol_Model_Adapter_Payment extends Varien_Object {
         'Eformance_KomerciParc' => true,
         'boleto_bradesco' => false,
         'Maxima_Cielo_Cc' => true,
+        'Query_Cielo_Cc' => true,
         'cartao' => true,
         'superpay' => true,
         'cielo' => true,
         'gwap_cc' => true,
         'Maxima_Cielo_Dc' => true,
+        'Query_Cielo_Dc' => true,
         'payzen_standard' => true,
         'pagseguro_hpp' => false
     );
